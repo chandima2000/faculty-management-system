@@ -20,6 +20,11 @@ namespace Faculty_Management_System
             {
                 progressBar1.Value = 0;
                 timer1.Stop();
+                Login login = new Login();
+                login.Show();
+                this.Hide();
+                
+                
             }
         }
     }
