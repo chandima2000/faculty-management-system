@@ -16,5 +16,10 @@ namespace Faculty_Management_System
         {
             InitializeComponent();
         }
+
+        private void exit_login_form_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
