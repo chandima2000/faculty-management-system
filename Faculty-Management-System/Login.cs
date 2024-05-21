@@ -21,5 +21,12 @@ namespace Faculty_Management_System
         {
             Application.Exit();
         }
+
+        private void login_btn_Click(object sender, EventArgs e)
+        {
+            Home home = new Home();
+            home.Show();
+            this.Hide();
+        }
     }
 }
