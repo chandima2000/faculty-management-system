@@ -24,14 +24,16 @@ namespace Faculty_Management_System
 
         private void undergraduate_Click(object sender, EventArgs e)
         {
-            Undergraduate ud=new Undergraduate();
+            Undergraduate ud = new Undergraduate();
             ud.Show();
             this.Hide();
         }
 
         private void non_academic_Click(object sender, EventArgs e)
         {
-
+            non_academics na = new non_academics();
+            na.Show();
+            this.Hide();
         }
 
         private void users_Click(object sender, EventArgs e)
@@ -54,6 +56,11 @@ namespace Faculty_Management_System
         private void exit_login_form_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void Home_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
