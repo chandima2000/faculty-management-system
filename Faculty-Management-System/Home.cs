@@ -19,7 +19,9 @@ namespace Faculty_Management_System
 
         private void academic_Click(object sender, EventArgs e)
         {
-
+            Academic academic = new Academic();
+            academic.Show();
+            this.Hide();
         }
 
         private void undergraduate_Click(object sender, EventArgs e)
