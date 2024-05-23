@@ -56,4 +56,5 @@ namespace Faculty_Management_System
             Application.Exit();
         }
     }
-}
+    }
+
