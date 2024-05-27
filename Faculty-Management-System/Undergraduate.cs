@@ -21,5 +21,12 @@ namespace Faculty_Management_System
         {
 
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Home homeForm = new Home();
+            homeForm.Show();
+            this.Hide();
+        }
     }
 }
