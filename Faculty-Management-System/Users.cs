@@ -39,7 +39,9 @@ namespace Faculty_Management_System
 
         private void button11_Click(object sender, EventArgs e)
         {
-
+            Home home = new Home();
+            home.Show();
+            this.Hide();
         }
 
         private void Users_Load(object sender, EventArgs e)
