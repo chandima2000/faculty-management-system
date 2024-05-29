@@ -17,5 +17,9 @@ namespace Faculty_Management_System
             InitializeComponent();
         }
 
+        private void non_academics_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

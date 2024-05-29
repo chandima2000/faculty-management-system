@@ -28,5 +28,10 @@ namespace Faculty_Management_System
             homeForm.Show();
             this.Hide();
         }
+
+        private void Undergraduate_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
