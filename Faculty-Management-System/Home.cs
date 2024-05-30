@@ -43,7 +43,9 @@ namespace Faculty_Management_System
 
         private void department_Click(object sender, EventArgs e)
         {
-
+            Departments dept = new Departments();
+            dept.Show();
+            this.Hide();
         }
 
         private void logout_btn_Click(object sender, EventArgs e)
