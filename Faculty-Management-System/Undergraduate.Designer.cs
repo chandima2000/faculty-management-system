@@ -31,17 +31,18 @@
             label1 = new Label();
             label2 = new Label();
             panel1 = new Panel();
-            pictureBox1 = new PictureBox();
-            comboBox4 = new ComboBox();
-            comboBox3 = new ComboBox();
-            comboBox2 = new ComboBox();
-            dateTimePicker1 = new DateTimePicker();
-            comboBox1 = new ComboBox();
-            textBox4 = new TextBox();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
-            button4 = new Button();
+            button6 = new Button();
+            button5 = new Button();
+            photoControl = new PictureBox();
+            leveltext = new ComboBox();
+            degreetext = new ComboBox();
+            departmenttext = new ComboBox();
+            dobtext = new DateTimePicker();
+            gendertext = new ComboBox();
+            phonetext = new TextBox();
+            emailtext = new TextBox();
+            studentidtext = new TextBox();
+            nametext = new TextBox();
             button3 = new Button();
             button2 = new Button();
             button1 = new Button();
@@ -55,10 +56,10 @@
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            button5 = new Button();
+            dataGridView1 = new DataGridView();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)photoControl).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -85,18 +86,18 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(button6);
             panel1.Controls.Add(button5);
-            panel1.Controls.Add(pictureBox1);
-            panel1.Controls.Add(comboBox4);
-            panel1.Controls.Add(comboBox3);
-            panel1.Controls.Add(comboBox2);
-            panel1.Controls.Add(dateTimePicker1);
-            panel1.Controls.Add(comboBox1);
-            panel1.Controls.Add(textBox4);
-            panel1.Controls.Add(textBox3);
-            panel1.Controls.Add(textBox2);
-            panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(button4);
+            panel1.Controls.Add(photoControl);
+            panel1.Controls.Add(leveltext);
+            panel1.Controls.Add(degreetext);
+            panel1.Controls.Add(departmenttext);
+            panel1.Controls.Add(dobtext);
+            panel1.Controls.Add(gendertext);
+            panel1.Controls.Add(phonetext);
+            panel1.Controls.Add(emailtext);
+            panel1.Controls.Add(studentidtext);
+            panel1.Controls.Add(nametext);
             panel1.Controls.Add(button3);
             panel1.Controls.Add(button2);
             panel1.Controls.Add(button1);
@@ -115,133 +116,148 @@
             panel1.Size = new Size(643, 590);
             panel1.TabIndex = 2;
             // 
-            // pictureBox1
+            // button6
             // 
-            pictureBox1.Location = new Point(210, 427);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(380, 26);
-            pictureBox1.TabIndex = 23;
-            pictureBox1.TabStop = false;
+            button6.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button6.Location = new Point(472, 421);
+            button6.Name = "button6";
+            button6.Size = new Size(119, 33);
+            button6.TabIndex = 25;
+            button6.Text = "Browse";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
             // 
-            // comboBox4
+            // button5
             // 
-            comboBox4.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Items.AddRange(new object[] { "Level 1", "Level 2", "Level 3", "Level 4" });
-            comboBox4.Location = new Point(210, 384);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(377, 28);
-            comboBox4.TabIndex = 22;
+            button5.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button5.Location = new Point(177, 537);
+            button5.Name = "button5";
+            button5.Size = new Size(289, 33);
+            button5.TabIndex = 24;
+            button5.Text = "Home";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
-            // comboBox3
+            // photoControl
             // 
-            comboBox3.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Items.AddRange(new object[] { "Computer Science", "Computing & Technology", "Engineering Technology" });
-            comboBox3.Location = new Point(210, 337);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(377, 28);
-            comboBox3.TabIndex = 21;
+            photoControl.Location = new Point(210, 427);
+            photoControl.Name = "photoControl";
+            photoControl.Size = new Size(256, 26);
+            photoControl.TabIndex = 23;
+            photoControl.TabStop = false;
             // 
-            // comboBox2
+            // leveltext
             // 
-            comboBox2.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Computer System Engineering", "Applied Computing", "Software Engineering" });
-            comboBox2.Location = new Point(210, 289);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(377, 28);
-            comboBox2.TabIndex = 20;
+            leveltext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            leveltext.FormattingEnabled = true;
+            leveltext.Items.AddRange(new object[] { "Level 1", "Level 2", "Level 3", "Level 4" });
+            leveltext.Location = new Point(210, 384);
+            leveltext.Name = "leveltext";
+            leveltext.Size = new Size(377, 28);
+            leveltext.TabIndex = 22;
             // 
-            // dateTimePicker1
+            // degreetext
             // 
-            dateTimePicker1.CalendarFont = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dateTimePicker1.Location = new Point(210, 245);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(377, 27);
-            dateTimePicker1.TabIndex = 19;
+            degreetext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            degreetext.FormattingEnabled = true;
+            degreetext.Items.AddRange(new object[] { "Computer Science", "Computing & Technology", "Engineering Technology" });
+            degreetext.Location = new Point(210, 337);
+            degreetext.Name = "degreetext";
+            degreetext.Size = new Size(377, 28);
+            degreetext.TabIndex = 21;
             // 
-            // comboBox1
+            // departmenttext
             // 
-            comboBox1.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Male", "Female" });
-            comboBox1.Location = new Point(210, 198);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(377, 28);
-            comboBox1.TabIndex = 18;
+            departmenttext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            departmenttext.FormattingEnabled = true;
+            departmenttext.Items.AddRange(new object[] { "Computer System Engineering", "Applied Computing", "Software Engineering" });
+            departmenttext.Location = new Point(210, 289);
+            departmenttext.Name = "departmenttext";
+            departmenttext.Size = new Size(377, 28);
+            departmenttext.TabIndex = 20;
             // 
-            // textBox4
+            // dobtext
             // 
-            textBox4.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox4.Location = new Point(210, 155);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(377, 27);
-            textBox4.TabIndex = 17;
+            dobtext.CalendarFont = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dobtext.Location = new Point(210, 245);
+            dobtext.Name = "dobtext";
+            dobtext.Size = new Size(377, 27);
+            dobtext.TabIndex = 19;
             // 
-            // textBox3
+            // gendertext
             // 
-            textBox3.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox3.Location = new Point(210, 108);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(377, 27);
-            textBox3.TabIndex = 16;
+            gendertext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            gendertext.FormattingEnabled = true;
+            gendertext.Items.AddRange(new object[] { "Male", "Female" });
+            gendertext.Location = new Point(210, 198);
+            gendertext.Name = "gendertext";
+            gendertext.Size = new Size(377, 28);
+            gendertext.TabIndex = 18;
             // 
-            // textBox2
+            // phonetext
             // 
-            textBox2.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(210, 63);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(377, 27);
-            textBox2.TabIndex = 15;
+            phonetext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            phonetext.Location = new Point(210, 155);
+            phonetext.Name = "phonetext";
+            phonetext.Size = new Size(377, 27);
+            phonetext.TabIndex = 17;
             // 
-            // textBox1
+            // emailtext
             // 
-            textBox1.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(210, 21);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(377, 27);
-            textBox1.TabIndex = 14;
+            emailtext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            emailtext.Location = new Point(210, 108);
+            emailtext.Name = "emailtext";
+            emailtext.Size = new Size(377, 27);
+            emailtext.TabIndex = 16;
             // 
-            // button4
+            // studentidtext
             // 
-            button4.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.Location = new Point(484, 483);
-            button4.Name = "button4";
-            button4.Size = new Size(119, 33);
-            button4.TabIndex = 13;
-            button4.Text = "Search";
-            button4.UseVisualStyleBackColor = true;
+            studentidtext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            studentidtext.Location = new Point(210, 63);
+            studentidtext.Name = "studentidtext";
+            studentidtext.Size = new Size(377, 27);
+            studentidtext.TabIndex = 15;
+            // 
+            // nametext
+            // 
+            nametext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            nametext.Location = new Point(210, 21);
+            nametext.Name = "nametext";
+            nametext.Size = new Size(377, 27);
+            nametext.TabIndex = 14;
             // 
             // button3
             // 
             button3.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(328, 483);
+            button3.Location = new Point(416, 483);
             button3.Name = "button3";
             button3.Size = new Size(119, 33);
             button3.TabIndex = 12;
             button3.Text = "Delete";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button2
             // 
             button2.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(177, 483);
+            button2.Location = new Point(229, 483);
             button2.Name = "button2";
             button2.Size = new Size(119, 33);
             button2.TabIndex = 11;
             button2.Text = "Edit";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button1
             // 
             button1.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(30, 483);
+            button1.Location = new Point(57, 483);
             button1.Name = "button1";
             button1.Size = new Size(119, 33);
             button1.TabIndex = 10;
             button1.Text = "Add";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // label12
             // 
@@ -343,47 +359,16 @@
             label3.TabIndex = 0;
             label3.Text = "Name:";
             // 
-            // tableLayoutPanel1
+            // dataGridView1
             // 
-            tableLayoutPanel1.BackColor = SystemColors.ActiveCaption;
-            tableLayoutPanel1.ColumnCount = 10;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 52.19298F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 47.80702F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 122F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 133F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 113F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 118F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 141F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 87F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 101F));
-            tableLayoutPanel1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tableLayoutPanel1.Location = new Point(753, 135);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 8;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 43F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 46F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 52F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 49F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 47F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(1136, 378);
-            tableLayoutPanel1.TabIndex = 3;
-            // 
-            // button5
-            // 
-            button5.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button5.Location = new Point(177, 537);
-            button5.Name = "button5";
-            button5.Size = new Size(289, 33);
-            button5.TabIndex = 24;
-            button5.Text = "Home";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            dataGridView1.BackgroundColor = SystemColors.ActiveCaption;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(744, 135);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(1155, 350);
+            dataGridView1.TabIndex = 3;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // Undergraduate
             // 
@@ -392,7 +377,7 @@
             BackgroundImage = Properties.Resources.login;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1924, 773);
-            Controls.Add(tableLayoutPanel1);
+            Controls.Add(dataGridView1);
             Controls.Add(panel1);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -400,7 +385,8 @@
             Text = "Undergraduate";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)photoControl).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -422,19 +408,19 @@
         private Label label12;
         private Button button1;
         private Button button2;
-        private Button button4;
         private Button button3;
-        private DateTimePicker dateTimePicker1;
-        private ComboBox comboBox1;
-        private TextBox textBox4;
-        private TextBox textBox3;
-        private TextBox textBox2;
-        private TextBox textBox1;
-        private PictureBox pictureBox1;
-        private ComboBox comboBox4;
-        private ComboBox comboBox3;
-        private ComboBox comboBox2;
-        private TableLayoutPanel tableLayoutPanel1;
+        private DateTimePicker dobtext;
+        private ComboBox gendertext;
+        private TextBox phonetext;
+        private TextBox emailtext;
+        private TextBox studentidtext;
+        private TextBox nametext;
+        private ComboBox leveltext;
+        private ComboBox degreetext;
+        private ComboBox departmenttext;
         private Button button5;
+        private DataGridView dataGridView1;
+        private PictureBox photoControl;
+        private Button button6;
     }
 }
