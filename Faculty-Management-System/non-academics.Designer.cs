@@ -48,14 +48,9 @@
             nametxt = new TextBox();
             label8 = new Label();
             panel2 = new Panel();
-            nametbl = new Label();
-            staffistbl = new Label();
-            emailtbl = new Label();
-            phonetbl = new Label();
-            dobtbl = new Label();
-            stafftable = new TableLayoutPanel();
+            dataTable = new DataGridView();
             panel1.SuspendLayout();
-            stafftable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataTable).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -63,7 +58,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Microsoft Sans Serif", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(254, 34);
+            label1.Location = new Point(254, 35);
             label1.Name = "label1";
             label1.Size = new Size(766, 52);
             label1.TabIndex = 0;
@@ -126,35 +121,38 @@
             deletebtn.TabIndex = 12;
             deletebtn.Text = "DELETE";
             deletebtn.UseVisualStyleBackColor = false;
+            deletebtn.Click += deletebtn_Click;
             // 
             // editbtn
             // 
             editbtn.BackColor = SystemColors.Highlight;
             editbtn.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold);
             editbtn.ForeColor = SystemColors.ButtonHighlight;
-            editbtn.Location = new Point(301, 390);
+            editbtn.Location = new Point(301, 389);
             editbtn.Name = "editbtn";
             editbtn.Size = new Size(95, 40);
             editbtn.TabIndex = 11;
             editbtn.Text = "EDIT";
             editbtn.UseVisualStyleBackColor = false;
+            editbtn.Click += editbtn_Click;
             // 
             // addbtn
             // 
             addbtn.BackColor = SystemColors.Highlight;
             addbtn.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold);
             addbtn.ForeColor = SystemColors.ButtonHighlight;
-            addbtn.Location = new Point(80, 390);
+            addbtn.Location = new Point(80, 389);
             addbtn.Name = "addbtn";
             addbtn.Size = new Size(95, 40);
             addbtn.TabIndex = 10;
             addbtn.Text = "ADD";
             addbtn.UseVisualStyleBackColor = false;
+            addbtn.Click += addbtn_Click;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(44, 331);
+            label7.Location = new Point(43, 331);
             label7.Name = "label7";
             label7.Size = new Size(47, 20);
             label7.TabIndex = 9;
@@ -162,7 +160,7 @@
             // 
             // datetxt
             // 
-            datetxt.Location = new Point(142, 326);
+            datetxt.Location = new Point(142, 325);
             datetxt.Name = "datetxt";
             datetxt.Size = new Size(289, 27);
             datetxt.TabIndex = 8;
@@ -170,7 +168,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(44, 259);
+            label6.Location = new Point(43, 259);
             label6.Name = "label6";
             label6.Size = new Size(81, 20);
             label6.TabIndex = 7;
@@ -186,7 +184,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(44, 116);
+            label5.Location = new Point(43, 116);
             label5.Name = "label5";
             label5.Size = new Size(64, 20);
             label5.TabIndex = 5;
@@ -202,7 +200,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(44, 191);
+            label4.Location = new Point(43, 191);
             label4.Name = "label4";
             label4.Size = new Size(53, 20);
             label4.TabIndex = 3;
@@ -218,7 +216,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(44, 48);
+            label3.Location = new Point(43, 48);
             label3.Name = "label3";
             label3.Size = new Size(56, 20);
             label3.TabIndex = 1;
@@ -246,91 +244,20 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.ActiveCaptionText;
-            panel2.Location = new Point(571, 241);
+            panel2.Location = new Point(551, 234);
             panel2.Name = "panel2";
-            panel2.Size = new Size(660, 3);
+            panel2.Size = new Size(681, 3);
             panel2.TabIndex = 4;
             // 
-            // nametbl
+            // dataTable
             // 
-            nametbl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            nametbl.AutoSize = true;
-            nametbl.BackColor = SystemColors.ActiveCaption;
-            nametbl.Location = new Point(3, 0);
-            nametbl.Name = "nametbl";
-            nametbl.Size = new Size(126, 36);
-            nametbl.TabIndex = 5;
-            nametbl.Text = "Name";
-            nametbl.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // staffistbl
-            // 
-            staffistbl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            staffistbl.AutoSize = true;
-            staffistbl.BackColor = SystemColors.ActiveCaption;
-            staffistbl.Location = new Point(135, 0);
-            staffistbl.Name = "staffistbl";
-            staffistbl.Size = new Size(126, 36);
-            staffistbl.TabIndex = 6;
-            staffistbl.Text = "Staff Id";
-            staffistbl.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // emailtbl
-            // 
-            emailtbl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            emailtbl.AutoSize = true;
-            emailtbl.BackColor = SystemColors.ActiveCaption;
-            emailtbl.Location = new Point(267, 0);
-            emailtbl.Name = "emailtbl";
-            emailtbl.Size = new Size(126, 36);
-            emailtbl.TabIndex = 7;
-            emailtbl.Text = "Email";
-            emailtbl.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // phonetbl
-            // 
-            phonetbl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            phonetbl.AutoSize = true;
-            phonetbl.BackColor = SystemColors.ActiveCaption;
-            phonetbl.Location = new Point(399, 0);
-            phonetbl.Name = "phonetbl";
-            phonetbl.Size = new Size(126, 36);
-            phonetbl.TabIndex = 8;
-            phonetbl.Text = "Phone No";
-            phonetbl.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // dobtbl
-            // 
-            dobtbl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dobtbl.AutoSize = true;
-            dobtbl.BackColor = SystemColors.ActiveCaption;
-            dobtbl.Location = new Point(531, 0);
-            dobtbl.Name = "dobtbl";
-            dobtbl.Size = new Size(126, 36);
-            dobtbl.TabIndex = 9;
-            dobtbl.Text = "DOB";
-            dobtbl.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // stafftable
-            // 
-            stafftable.ColumnCount = 5;
-            stafftable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            stafftable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            stafftable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            stafftable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            stafftable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            stafftable.Controls.Add(nametbl, 0, 0);
-            stafftable.Controls.Add(dobtbl, 4, 0);
-            stafftable.Controls.Add(staffistbl, 1, 0);
-            stafftable.Controls.Add(phonetbl, 3, 0);
-            stafftable.Controls.Add(emailtbl, 2, 0);
-            stafftable.Location = new Point(571, 250);
-            stafftable.Name = "stafftable";
-            stafftable.RowCount = 2;
-            stafftable.RowStyles.Add(new RowStyle(SizeType.Percent, 32F));
-            stafftable.RowStyles.Add(new RowStyle(SizeType.Percent, 68F));
-            stafftable.Size = new Size(660, 114);
-            stafftable.TabIndex = 10;
+            dataTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataTable.ColumnHeadersHeight = 29;
+            dataTable.Location = new Point(553, 260);
+            dataTable.Name = "dataTable";
+            dataTable.RowHeadersWidth = 51;
+            dataTable.Size = new Size(679, 188);
+            dataTable.TabIndex = 5;
             // 
             // non_academics
             // 
@@ -339,7 +266,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1262, 773);
-            Controls.Add(stafftable);
+            Controls.Add(dataTable);
             Controls.Add(panel2);
             Controls.Add(label8);
             Controls.Add(panel1);
@@ -348,10 +275,10 @@
             Name = "non_academics";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "non_academics";
+            Load += non_academics_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            stafftable.ResumeLayout(false);
-            stafftable.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataTable).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -377,11 +304,6 @@
         private TextBox nametxt;
         private Label label8;
         private Panel panel2;
-        private Label nametbl;
-        private Label staffistbl;
-        private Label emailtbl;
-        private Label phonetbl;
-        private Label dobtbl;
-        private TableLayoutPanel stafftable;
+        private DataGridView dataTable;
     }
 }

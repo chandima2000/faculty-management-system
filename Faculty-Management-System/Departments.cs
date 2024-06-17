@@ -10,11 +10,19 @@ using System.Windows.Forms;
 
 namespace Faculty_Management_System
 {
-    public partial class Undergraduate : Form
+
+    public partial class Departments : Form
     {
-        public Undergraduate()
+        public Departments()
         {
             InitializeComponent();
+        }
+
+        private void Departments_Load(object sender, EventArgs e)
+        {
+           Home home = new Home();
+           home.Show();
+           this.Hide();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -22,16 +30,11 @@ namespace Faculty_Management_System
 
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            Home homeForm = new Home();
-            homeForm.Show();
-            this.Hide();
-        }
-
-        private void Undergraduate_Load(object sender, EventArgs e)
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }
+
+        
     }
 }
