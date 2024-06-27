@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using String = System.String;
-
 
 namespace Faculty_Management_System
 {
@@ -21,7 +12,7 @@ namespace Faculty_Management_System
             InitializeComponent();
         }
         
-        SqlConnection conn = new SqlConnection(@"Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=True;");
+        SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=True;");
 
         private void exit_login_form_Click(object sender, EventArgs e)
         {
@@ -36,16 +27,21 @@ namespace Faculty_Management_System
             try
             {
                 conn.Open();
-                String query = "SELECT * FROM Login WHERE username = '"+textBox1.Text+"' AND password = '"+textBox2.Text+"'";
-                SqlDataAdapter sda = new(query,conn);
+                String query = "SELECT * FROM Login WHERE username = @username AND password = @password";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@username", textBox1.Text);
+                cmd.Parameters.AddWithValue("@password", textBox2.Text);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
 
-                DataTable dtable = new();
+                DataTable dtable = new DataTable();
                 sda.Fill(dtable);
 
                 if(dtable.Rows.Count > 0 )
                 {
                     username = textBox1.Text;
                     password = textBox2.Text;
+
+                    MessageBox.Show("Login successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     Home home = new Home();
                     home.Show();
