@@ -16,7 +16,7 @@ namespace Faculty_Management_System
         {
             InitializeComponent();
             // Initialize the SqlConnection with your connection string
-            con = new SqlConnection("Data Source=LAPTOP-6PCEG0NK\\MSSQLSERVER01;Initial Catalog=FCT_MANAGEMENT_SYSTEM;Integrated Security=True;Encrypt=False");
+            con = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
             LoadData(); // Load data when the form initializes
         }
 
@@ -43,7 +43,7 @@ namespace Faculty_Management_System
             string department = departmenttext.Text; // Assuming you have a text box or control for department
             string degree = degreetext.Text; // Assuming you have a text box or control for degree
             string level = leveltext.Text; // Assuming you have a text box or control for level
-            byte[] photo = GetPhotoFromControl(photoControl); // Assuming you have a method to get the photo as byte array from a control
+            byte[]? photo = GetPhotoFromControl(photoControl); // Assuming you have a method to get the photo as byte array from a control
 
             try
             {
@@ -54,8 +54,8 @@ namespace Faculty_Management_System
                 }
 
                 string query = @"
-                INSERT INTO [FCT_MANAGEMENT_SYSTEM].[dbo].[Undergraduate] 
-                ([Name], [Student-id], [Email], [Phone], [Gender], [DOB], [Department], [Degree], [Level], [Photo])
+                INSERT INTO [FCT_DB].[dbo].[Undergraduates] 
+                ([Name], [Student_id], [Email], [Phone], [Gender], [DOB], [Department], [Degree], [E_Level], [Photo])
                 VALUES (@name, @studentId, @Email, @Phone, @Gender, @DOB, @Department, @Degree, @Level, @Photo)";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
@@ -92,7 +92,7 @@ namespace Faculty_Management_System
         }
 
         // Method to get the photo as byte array from the control (example implementation)
-        private byte[] GetPhotoFromControl(Control photoControl)
+        private byte[]? GetPhotoFromControl(Control photoControl)
         {
             if (photoControl is PictureBox pictureBox && pictureBox.Image != null)
             {
@@ -120,7 +120,7 @@ namespace Faculty_Management_System
                     con.Open();
                 }
 
-                string query = "SELECT [Name], [Student-id], [Email], [Phone], [Gender], [DOB], [Department], [Degree], [Level], [Photo] FROM [FCT_MANAGEMENT_SYSTEM].[dbo].[Undergraduate]";
+                string query = "SELECT [Name], [Student_id], [Email], [Phone], [Gender], [DOB], [Department], [Degree], [E_Level], [Photo] FROM [FCT_DB].[dbo].[Undergraduates]";
                 SqlDataAdapter adapter = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -169,7 +169,7 @@ namespace Faculty_Management_System
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
 
                 // Get the value of the primary key column (assuming it's Student-id and it's unique)
-                string studentId = selectedRow.Cells["Student-id"].Value.ToString();
+                string? studentId = selectedRow.Cells["Student_id"].Value.ToString();
 
                 try
                 {
@@ -180,7 +180,7 @@ namespace Faculty_Management_System
                     }
 
                     // SQL query to delete the row with the specified Student-id
-                    string query = "DELETE FROM [FCT_MANAGEMENT_SYSTEM].[dbo].[Undergraduate] WHERE [Student-id] = @studentId";
+                    string query = "DELETE FROM [FCT_DB].[dbo].[Undergraduates] WHERE [Student_id] = @studentId";
 
                     // Create and execute the SqlCommand
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -230,7 +230,7 @@ namespace Faculty_Management_System
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
 
                 // Get the value of the primary key column (assuming it's Student-id and it's unique)
-                string studentId = selectedRow.Cells["Student-id"].Value.ToString();
+                string? studentId = selectedRow.Cells["Student_id"].Value.ToString();
 
                 try
                 {
@@ -242,10 +242,10 @@ namespace Faculty_Management_System
 
                     // SQL query to update the row with the specified Student-id
                     string query = @"
-            UPDATE [FCT_MANAGEMENT_SYSTEM].[dbo].[Undergraduate] 
+            UPDATE [FCT_DB].[dbo].[Undergraduates] 
             SET [Name] = @name, [Email] = @Email, [Phone] = @Phone, [Gender] = @Gender, [DOB] = @DOB, 
-            [Department] = @Department, [Degree] = @Degree, [Level] = @Level
-            WHERE [Student-id] = @studentId";
+            [Department] = @Department, [Degree] = @Degree, [E_Level] = @Level
+            WHERE [Student_id] = @studentId";
 
                     // Create and execute the SqlCommand
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -278,7 +278,7 @@ namespace Faculty_Management_System
                             rowToUpdate["DOB"] = dobtext.Value;
                             rowToUpdate["Department"] = departmenttext.Text;
                             rowToUpdate["Degree"] = degreetext.Text;
-                            rowToUpdate["Level"] = leveltext.Text;
+                            rowToUpdate["E_Level"] = leveltext.Text;
 
                             // Refresh the DataGridView to reflect the changes
                             dataGridView1.Refresh();

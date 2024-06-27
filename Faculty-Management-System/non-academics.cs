@@ -7,38 +7,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+//using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 
 namespace Faculty_Management_System
 {
     public partial class non_academics : Form
     {
 
-        String conString = "server=localhost;uid=root;pwd=password;database=groupproject";
-        MySqlConnection con = new MySqlConnection();
+        /*String conString = "server=localhost;uid=root;pwd=password;database=groupproject";
+        MySqlConnection con = new MySqlConnection();*/
 
         public non_academics()
         {
             InitializeComponent();
-
-            con.ConnectionString = conString;
-            con.Open();
-
             LoadData();
         }
+
+        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
 
         private void LoadData()
         {
             try
             {
+                con.Open();
                 // Open the connection if it's not already open
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
+                /* if (con.State == ConnectionState.Closed)
+                 {
+                     con.Open();
+                 }*/
 
-                string query = "SELECT name, email, staff_id, phone_no, dob FROM non_academics";
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, con);
+                string? query = "SELECT * FROM NonAcademics";
+                SqlCommand cmd = new SqlCommand(query, con);
+                SqlDataAdapter adapter = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
@@ -79,9 +80,9 @@ namespace Faculty_Management_System
                     con.Open();
                 }
 
-                string query = "INSERT INTO non_academics (name, email, staff_id, phone_no, dob) VALUES(@name, @email, @staff_id, @phone_no, @dob)";
+                string query = "INSERT INTO NonAcademics (name, email, staff_id, phone_no, dob) VALUES(@name, @email, @staff_id, @phone_no, @dob)";
 
-                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     // Add parameters to the command to prevent SQL injection
                     cmd.Parameters.AddWithValue("@name", name);
@@ -127,7 +128,7 @@ namespace Faculty_Management_System
                 DataGridViewRow selectedRow = dataTable.SelectedRows[0];
 
                 // Get the value of the primary key column (staff_id assuming it's unique)
-                string staffId = selectedRow.Cells["staff_id"].Value.ToString();
+                string? staffId = selectedRow.Cells["staff_id"].Value.ToString();
 
                 try
                 {
@@ -135,10 +136,10 @@ namespace Faculty_Management_System
                     con.Open();
 
                     // SQL query to delete the row with the specified staff_id
-                    string query = "DELETE FROM non_academics WHERE staff_id = @staffId";
+                    string? query = "DELETE FROM NonAcademics WHERE staff_id = @staffId";
 
                     // Create and execute the MySqlCommand
-                    using (MySqlCommand cmd = new MySqlCommand(query, con))
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         // Add the parameter for staffId
                         cmd.Parameters.AddWithValue("@staffId", staffId);
@@ -179,6 +180,13 @@ namespace Faculty_Management_System
         private void editbtn_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void homebtn_Click(object sender, EventArgs e)
+        {
+            Home home = new Home();
+            home.Show();
+            this.Hide();
         }
     }
 }

@@ -31,7 +31,6 @@
             label1 = new Label();
             label2 = new Label();
             panel1 = new Panel();
-
             button6 = new Button();
             button5 = new Button();
             photoControl = new PictureBox();
@@ -44,7 +43,6 @@
             emailtext = new TextBox();
             studentidtext = new TextBox();
             nametext = new TextBox();
-
             button3 = new Button();
             button2 = new Button();
             button1 = new Button();
@@ -58,9 +56,7 @@
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
-
             dataGridView1 = new DataGridView();
-
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)photoControl).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -118,10 +114,9 @@
             panel1.Location = new Point(35, 101);
             panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(563, 442);
+            panel1.Size = new Size(667, 637);
             panel1.TabIndex = 2;
             // 
-
             // button6
             // 
             button6.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -139,13 +134,11 @@
             button5.Location = new Point(177, 537);
             button5.Name = "button5";
             button5.Size = new Size(289, 33);
-
             button5.TabIndex = 24;
             button5.Text = "Home";
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
             // 
-
             // photoControl
             // 
             photoControl.Location = new Point(210, 427);
@@ -161,7 +154,7 @@
             leveltext.Items.AddRange(new object[] { "Level 1", "Level 2", "Level 3", "Level 4" });
             leveltext.Location = new Point(210, 384);
             leveltext.Name = "leveltext";
-            leveltext.Size = new Size(377, 28);
+            leveltext.Size = new Size(377, 25);
             leveltext.TabIndex = 22;
             // 
             // degreetext
@@ -171,7 +164,7 @@
             degreetext.Items.AddRange(new object[] { "Computer Science", "Computing & Technology", "Engineering Technology" });
             degreetext.Location = new Point(210, 337);
             degreetext.Name = "degreetext";
-            degreetext.Size = new Size(377, 28);
+            degreetext.Size = new Size(377, 25);
             degreetext.TabIndex = 21;
             // 
             // departmenttext
@@ -181,7 +174,7 @@
             departmenttext.Items.AddRange(new object[] { "Computer System Engineering", "Applied Computing", "Software Engineering" });
             departmenttext.Location = new Point(210, 289);
             departmenttext.Name = "departmenttext";
-            departmenttext.Size = new Size(377, 28);
+            departmenttext.Size = new Size(377, 25);
             departmenttext.TabIndex = 20;
             // 
             // dobtext
@@ -189,7 +182,7 @@
             dobtext.CalendarFont = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dobtext.Location = new Point(210, 245);
             dobtext.Name = "dobtext";
-            dobtext.Size = new Size(377, 27);
+            dobtext.Size = new Size(377, 23);
             dobtext.TabIndex = 19;
             // 
             // gendertext
@@ -199,7 +192,7 @@
             gendertext.Items.AddRange(new object[] { "Male", "Female" });
             gendertext.Location = new Point(210, 198);
             gendertext.Name = "gendertext";
-            gendertext.Size = new Size(377, 28);
+            gendertext.Size = new Size(377, 25);
             gendertext.TabIndex = 18;
             // 
             // phonetext
@@ -207,7 +200,7 @@
             phonetext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             phonetext.Location = new Point(210, 155);
             phonetext.Name = "phonetext";
-            phonetext.Size = new Size(377, 27);
+            phonetext.Size = new Size(377, 23);
             phonetext.TabIndex = 17;
             // 
             // emailtext
@@ -215,7 +208,7 @@
             emailtext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             emailtext.Location = new Point(210, 108);
             emailtext.Name = "emailtext";
-            emailtext.Size = new Size(377, 27);
+            emailtext.Size = new Size(377, 23);
             emailtext.TabIndex = 16;
             // 
             // studentidtext
@@ -223,7 +216,7 @@
             studentidtext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             studentidtext.Location = new Point(210, 63);
             studentidtext.Name = "studentidtext";
-            studentidtext.Size = new Size(377, 27);
+            studentidtext.Size = new Size(377, 23);
             studentidtext.TabIndex = 15;
             // 
             // nametext
@@ -231,16 +224,13 @@
             nametext.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             nametext.Location = new Point(210, 21);
             nametext.Name = "nametext";
-            nametext.Size = new Size(377, 27);
+            nametext.Size = new Size(377, 23);
             nametext.TabIndex = 14;
-
             // 
             // button3
             // 
             button3.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-
             button3.Location = new Point(416, 483);
-
             button3.Name = "button3";
             button3.Size = new Size(104, 25);
             button3.TabIndex = 12;
@@ -251,9 +241,7 @@
             // button2
             // 
             button2.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-
             button2.Location = new Point(229, 483);
-
             button2.Name = "button2";
             button2.Size = new Size(104, 25);
             button2.TabIndex = 11;
@@ -264,9 +252,7 @@
             // button1
             // 
             button1.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-
             button1.Location = new Point(57, 483);
-
             button1.Name = "button1";
             button1.Size = new Size(104, 25);
             button1.TabIndex = 10;
@@ -374,7 +360,6 @@
             label3.TabIndex = 0;
             label3.Text = "Name:";
             // 
-
             // dataGridView1
             // 
             dataGridView1.BackgroundColor = SystemColors.ActiveCaption;
@@ -385,7 +370,6 @@
             dataGridView1.Size = new Size(1155, 350);
             dataGridView1.TabIndex = 3;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-
             // 
             // Undergraduate
             // 
@@ -393,17 +377,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.login;
             BackgroundImageLayout = ImageLayout.Stretch;
-
             ClientSize = new Size(1924, 773);
             Controls.Add(dataGridView1);
-
             Controls.Add(panel1);
             Controls.Add(label2);
             Controls.Add(label1);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Undergraduate";
             Text = "Undergraduate";
-            Load += Undergraduate_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)photoControl).EndInit();
