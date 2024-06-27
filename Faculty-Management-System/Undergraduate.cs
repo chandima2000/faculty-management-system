@@ -31,6 +31,7 @@ namespace Faculty_Management_System
             this.Hide();
         }
 
+
         private void button1_Click(object sender, EventArgs e)
         {
             string name = nametext.Text;
@@ -303,6 +304,7 @@ namespace Faculty_Management_System
                 MessageBox.Show("Please select a row to update.");
             }
         }
+
 
     }
 }

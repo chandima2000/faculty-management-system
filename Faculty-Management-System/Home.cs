@@ -19,29 +19,37 @@ namespace Faculty_Management_System
 
         private void academic_Click(object sender, EventArgs e)
         {
-
+            Academic academic = new Academic();
+            academic.Show();
+            this.Hide();
         }
 
         private void undergraduate_Click(object sender, EventArgs e)
         {
-            Undergraduate ud=new Undergraduate();
+            Undergraduate ud = new Undergraduate();
             ud.Show();
             this.Hide();
         }
 
         private void non_academic_Click(object sender, EventArgs e)
         {
-
+            non_academics na = new non_academics();
+            na.Show();
+            this.Hide();
         }
 
         private void users_Click(object sender, EventArgs e)
         {
-
+            Users users = new Users();
+            users.Show();
+            this.Hide();
         }
 
         private void department_Click(object sender, EventArgs e)
         {
-
+            Departments dept = new Departments();
+            dept.Show();
+            this.Hide();
         }
 
         private void logout_btn_Click(object sender, EventArgs e)
@@ -55,5 +63,11 @@ namespace Faculty_Management_System
         {
             Application.Exit();
         }
+
+        private void Home_Load(object sender, EventArgs e)
+        {
+
+        }
     }
-}
+    }
+
