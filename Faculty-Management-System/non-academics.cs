@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 
 namespace Faculty_Management_System
@@ -15,8 +14,6 @@ namespace Faculty_Management_System
     public partial class non_academics : Form
     {
 
-        /*String conString = "server=localhost;uid=root;pwd=password;database=groupproject";
-        MySqlConnection con = new MySqlConnection();*/
 
         public non_academics()
         {
@@ -30,12 +27,12 @@ namespace Faculty_Management_System
         {
             try
             {
-                con.Open();
+               
                 // Open the connection if it's not already open
-                /* if (con.State == ConnectionState.Closed)
+                if (con.State == ConnectionState.Closed)
                  {
                      con.Open();
-                 }*/
+                 }
 
                 string? query = "SELECT * FROM NonAcademics";
                 SqlCommand cmd = new SqlCommand(query, con);

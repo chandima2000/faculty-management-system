@@ -12,7 +12,7 @@ namespace Faculty_Management_System
             InitializeComponent();
         }
         
-        SqlConnection conn = new SqlConnection("Data Source=DESKTOP-ELFA8OA\\SQLEXPRESS;Initial Catalog=FacultyManagement;Integrated Security=True;Encrypt=False;");
+        SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
 
         private void exit_login_form_Click(object sender, EventArgs e)
         {

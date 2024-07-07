@@ -13,142 +13,151 @@ namespace Faculty_Management_System
 {
     public partial class Users : Form
     {
-        private string connectionString = "Data Source=DESKTOP-ELFA8OA\\SQLEXPRESS;Initial Catalog=FacultyManagement;Integrated Security=True;TrustServerCertificate=True";
+        private SqlConnection con;
 
         public Users()
         {
             InitializeComponent();
-            InitializeCustomComponents();
+            con = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
             LoadData();
         }
 
         // Define text boxes
-        private TextBox UserIDTextBox;
-        private TextBox NameTextBox;
-        private TextBox PositionTextBox;
-        private TextBox PhoneTextBox;
-        private TextBox EmailTextBox;
-        private TextBox PasswordTextBox;
-        private TextBox PhotoTextBox;
+        private TextBox? UserIDTextBox;
+        private TextBox? NameTextBox;
+        private TextBox? PositionTextBox;
+        private TextBox? PhoneTextBox;
+        private TextBox? EmailTextBox;
+        private TextBox? PasswordTextBox;
 
-        // Define the DataGridView for displaying users
-        private DataGridView usersDataGridView;
-
-        private void InitializeCustomComponents()
-        {
-            this.UserIDTextBox = new TextBox() { Location = new Point(100, 20), Size = new Size(200, 20), Name = "UserIDTextBox" };
-            this.NameTextBox = new TextBox() { Location = new Point(100, 60), Size = new Size(200, 20), Name = "NameTextBox" };
-            this.PositionTextBox = new TextBox() { Location = new Point(100, 100), Size = new Size(200, 20), Name = "PositionTextBox" };
-            this.PhoneTextBox = new TextBox() { Location = new Point(100, 140), Size = new Size(200, 20), Name = "PhoneTextBox" };
-            this.EmailTextBox = new TextBox() { Location = new Point(100, 180), Size = new Size(200, 20), Name = "EmailTextBox" };
-            this.PasswordTextBox = new TextBox() { Location = new Point(100, 220), Size = new Size(200, 20), Name = "PasswordTextBox" };
-            this.PhotoTextBox = new TextBox() { Location = new Point(100, 260), Size = new Size(200, 20), Name = "PhotoTextBox" };
-
-            this.usersDataGridView = new DataGridView() { Location = new Point(320, 20), Size = new Size(400, 300), Name = "usersDataGridView" };
-
-            this.Controls.Add(this.UserIDTextBox);
-            this.Controls.Add(this.NameTextBox);
-            this.Controls.Add(this.PositionTextBox);
-            this.Controls.Add(this.PhoneTextBox);
-            this.Controls.Add(this.EmailTextBox);
-            this.Controls.Add(this.PasswordTextBox);
-            this.Controls.Add(this.PhotoTextBox);
-            this.Controls.Add(this.usersDataGridView);
-        }
+     
 
         private void LoadData()
         {
-            if (usersDataGridView == null)
+         
+            try
             {
-                MessageBox.Show("DataGridView is not initialized.");
-                return;
-            }
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
+                con.Open();
                 string query = "SELECT * FROM Users";
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
+                SqlCommand cmd = new SqlCommand(query, con);
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con);
                 DataTable dataTable = new DataTable();
                 dataAdapter.Fill(dataTable);
-                usersDataGridView.DataSource = dataTable;
+                dataGridView1.DataSource = dataTable;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                    con.Close();
             }
         }
 
         private void AddRecord()
         {
-            // Check if any required fields are empty
-            if (string.IsNullOrEmpty(NameTextBox.Text) || string.IsNullOrEmpty(PositionTextBox.Text) ||
-                string.IsNullOrEmpty(PhoneTextBox.Text) || string.IsNullOrEmpty(EmailTextBox.Text) ||
-                string.IsNullOrEmpty(PasswordTextBox.Text) || string.IsNullOrEmpty(PhotoTextBox.Text))
-            {
-                MessageBox.Show("Please fill all fields.");
-                return;
-            }
+         
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                string query = "INSERT INTO Users (Name, Position, Phone, Email, Password, Photo) VALUES (@Name, @Position, @Phone, @Email, @Password, @Photo)";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                string query = "INSERT INTO Users (UserID, Name, Position, Phone, Email, Password) VALUES (@UserID, @Name, @Position, @Phone, @Email, @Password)";
+                using (SqlCommand command = new SqlCommand(query, con))
                 {
-                    command.Parameters.AddWithValue("@Name", NameTextBox.Text);
-                    command.Parameters.AddWithValue("@Position", PositionTextBox.Text);
-                    command.Parameters.AddWithValue("@Phone", PhoneTextBox.Text);
-                    command.Parameters.AddWithValue("@Email", EmailTextBox.Text);
-                    command.Parameters.AddWithValue("@Password", PasswordTextBox.Text);
-                    command.Parameters.AddWithValue("@Photo", PhotoTextBox.Text);
+                    command.Parameters.AddWithValue("@UserID", UserIDTextBox?.Text);
+                    command.Parameters.AddWithValue("@Name", NameTextBox?.Text);
+                    command.Parameters.AddWithValue("@Position", PositionTextBox?.Text);
+                    command.Parameters.AddWithValue("@Phone", PhoneTextBox?.Text);
+                    command.Parameters.AddWithValue("@Email", EmailTextBox?.Text);
+                    command.Parameters.AddWithValue("@Password", PasswordTextBox?.Text);
 
-                    connection.Open();
+                   
+                    con.Open();
                     command.ExecuteNonQuery();
+                    con.Close();
                 }
+                MessageBox.Show("Data added successfully!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                    con.Close();
             }
             LoadData(); // Refresh the data grid view
         }
 
         private void EditRecord()
         {
-            if (string.IsNullOrEmpty(UserIDTextBox.Text))
+            if (string.IsNullOrEmpty(UserIDTextBox?.Text))
             {
                 MessageBox.Show("Please enter a UserID.");
                 return;
             }
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                string query = "UPDATE Users SET Name=@Name, Position=@Position, Phone=@Phone, Email=@Email, Password=@Password, Photo=@Photo WHERE ID=@UserID";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                string query = "UPDATE Users SET Name=@Name, Position=@Position, Phone=@Phone, Email=@Email, Password=@Password WHERE ID=@UserID";
+                using (SqlCommand command = new SqlCommand(query, con))
                 {
                     command.Parameters.AddWithValue("@UserID", UserIDTextBox.Text);
-                    command.Parameters.AddWithValue("@Name", NameTextBox.Text);
-                    command.Parameters.AddWithValue("@Position", PositionTextBox.Text);
-                    command.Parameters.AddWithValue("@Phone", PhoneTextBox.Text);
-                    command.Parameters.AddWithValue("@Email", EmailTextBox.Text);
-                    command.Parameters.AddWithValue("@Password", PasswordTextBox.Text);
-                    command.Parameters.AddWithValue("@Photo", PhotoTextBox.Text);
+                    command.Parameters.AddWithValue("@Name", NameTextBox?.Text);
+                    command.Parameters.AddWithValue("@Position", PositionTextBox?.Text);
+                    command.Parameters.AddWithValue("@Phone", PhoneTextBox?.Text);
+                    command.Parameters.AddWithValue("@Email", EmailTextBox?.Text);
+                    command.Parameters.AddWithValue("@Password", PasswordTextBox?.Text);
+                  
 
-                    connection.Open();
+                    con.Open();
                     command.ExecuteNonQuery();
+                    con.Close();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                    con.Close();
             }
             LoadData(); // Refresh the data grid view
         }
 
         private void DeleteRecord()
         {
-            if (string.IsNullOrEmpty(UserIDTextBox.Text))
+            if (string.IsNullOrEmpty(UserIDTextBox?.Text))
             {
                 MessageBox.Show("Please enter a UserID.");
                 return;
             }
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
                 string query = "DELETE FROM Users WHERE ID=@UserID";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand(query, con))
                 {
                     command.Parameters.AddWithValue("@UserID", UserIDTextBox.Text);
 
-                    connection.Open();
+                    con.Open();
                     command.ExecuteNonQuery();
+                    con.Close();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                    con.Close();
             }
             LoadData(); // Refresh the data grid view
         }
@@ -178,5 +187,7 @@ namespace Faculty_Management_System
         {
             DeleteRecord();
         }
+
+
     }
 }
