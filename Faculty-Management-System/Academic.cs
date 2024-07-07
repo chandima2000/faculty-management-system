@@ -1,26 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Data.SqlClient;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Faculty_Management_System
 {
     public partial class Academic : Form
     {
-        SqlConnection conn = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FCT_DB;Integrated Security=True;TrustServerCertificate=False;Encrypt=False");
+        private SqlConnection conn;
 
         public Academic()
         {
             InitializeComponent();
-
+            conn = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FCT_DB;Integrated Security=True;TrustServerCertificate=False;Encrypt=False");
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -30,19 +23,16 @@ namespace Faculty_Management_System
 
         private void label3_Click(object sender, EventArgs e)
         {
-
         }
 
         private void Academic_Load(object sender, EventArgs e)
         {
-
             dataGridView1.Hide();
             BindDataToDataGridView();
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -57,7 +47,6 @@ namespace Faculty_Management_System
 
         private void button3_Click(object sender, EventArgs e)
         {
-
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -72,16 +61,39 @@ namespace Faculty_Management_System
             DialogResult dr = MessageBox.Show("Are you sure to delete row?", "Confirmation", MessageBoxButtons.YesNo);
             if (dr == DialogResult.Yes)
             {
-                int empId = int.Parse(textBox1.Text);
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("exec DeleteEmp_SP '" + empId + "'", conn);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Successfully Deleted..");
-                GetAcademicList();
+                string staffNo = textBox2.Text;
+
+                if (string.IsNullOrWhiteSpace(staffNo))
+                {
+                    MessageBox.Show("Please enter a valid staff number.");
+                    return;
+                }
+
+                try
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DeleteAcademic", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@staffNo", staffNo);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Successfully Deleted.");
+                    BindDataToDataGridView(); // Refresh the DataGridView
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
+                }
+                finally
+                {
+                    conn.Close();
+                }
             }
             else if (dr == DialogResult.No)
             {
-                //Nothing to do
+                // Nothing to do
             }
         }
 
@@ -91,16 +103,13 @@ namespace Faculty_Management_System
 
             try
             {
-                using (SqlConnection conn = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FCT_DB;Integrated Security=True;TrustServerCertificate=False;Encrypt=False"))
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand("listAcademic", conn))
                 {
-                    conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("listAcademic", conn))
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                        {
-                            da.Fill(dt);
-                        }
+                        da.Fill(dt);
                     }
                 }
             }
@@ -108,10 +117,13 @@ namespace Faculty_Management_System
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
+            finally
+            {
+                conn.Close();
+            }
 
             return dt;
         }
-
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -120,16 +132,13 @@ namespace Faculty_Management_System
             string dep = textBox3.Text;
             string degree = textBox4.Text;
 
-            if (string.IsNullOrWhiteSpace(textBox1.Text) ||
-               string.IsNullOrWhiteSpace(textBox2.Text) ||
-               string.IsNullOrWhiteSpace(textBox3.Text))
+            if (string.IsNullOrWhiteSpace(name) ||
+               string.IsNullOrWhiteSpace(staffNo) ||
+               string.IsNullOrWhiteSpace(dep))
             {
                 MessageBox.Show("Please enter valid data.");
                 return;
             }
-
-
-
 
             try
             {
@@ -144,9 +153,8 @@ namespace Faculty_Management_System
                     cmd.ExecuteNonQuery();
                 }
 
-
                 MessageBox.Show("Successfully inserted");
-                GetAcademicList();
+                BindDataToDataGridView(); // Refresh the DataGridView
             }
             catch (Exception ex)
             {
@@ -162,20 +170,7 @@ namespace Faculty_Management_System
         {
             DataTable dt = GetAcademicList();
             dataGridView1.DataSource = dt;
-        }
-
-
-
-
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+            dataGridView1.Refresh();
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -184,9 +179,20 @@ namespace Faculty_Management_System
             dataGridView1.BringToFront();
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+        }
+
         private void label6_Click(object sender, EventArgs e)
         {
+        }
 
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
         }
     }
 }
