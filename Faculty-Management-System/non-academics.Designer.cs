@@ -271,6 +271,7 @@
             dataTable.RowHeadersWidth = 51;
             dataTable.Size = new Size(594, 141);
             dataTable.TabIndex = 5;
+            dataTable.CellContentClick += dataTable_CellContentClick;
             // 
             // non_academics
             // 

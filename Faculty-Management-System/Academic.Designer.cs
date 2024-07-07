@@ -29,12 +29,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Academic));
             label1 = new Label();
             panel1 = new Panel();
             label3 = new Label();
             label4 = new Label();
             panel2 = new Panel();
+            button5 = new Button();
+            dataGridView1 = new DataGridView();
             panel3 = new Panel();
             button4 = new Button();
             button2 = new Button();
@@ -48,8 +51,10 @@
             label6 = new Label();
             textBox2 = new TextBox();
             textBox1 = new TextBox();
+            contextMenuStrip1 = new ContextMenuStrip(components);
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel3.SuspendLayout();
             SuspendLayout();
             // 
@@ -94,7 +99,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Calibri", 20.25F, FontStyle.Bold);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(553, 23);
+            label4.Location = new Point(482, 23);
             label4.Name = "label4";
             label4.Size = new Size(206, 33);
             label4.TabIndex = 3;
@@ -103,6 +108,8 @@
             // panel2
             // 
             panel2.BackColor = Color.Transparent;
+            panel2.Controls.Add(button5);
+            panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(panel3);
             panel2.Controls.Add(label4);
             panel2.Location = new Point(0, 103);
@@ -110,6 +117,25 @@
             panel2.Size = new Size(784, 308);
             panel2.TabIndex = 2;
             panel2.Paint += panel2_Paint;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(704, 31);
+            button5.Name = "button5";
+            button5.Size = new Size(68, 21);
+            button5.TabIndex = 6;
+            button5.Text = "SHOW";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(251, 84);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(520, 201);
+            dataGridView1.TabIndex = 5;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // panel3
             // 
@@ -161,6 +187,7 @@
             button2.TabIndex = 23;
             button2.Text = "DELETE";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // button1
             // 
@@ -175,6 +202,7 @@
             button1.TabIndex = 22;
             button1.Text = "ADD";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // button3
             // 
@@ -196,7 +224,7 @@
             label5.AutoSize = true;
             label5.BackColor = Color.White;
             label5.ForeColor = SystemColors.ActiveCaptionText;
-            label5.Location = new Point(19, 148);
+            label5.Location = new Point(16, 132);
             label5.Name = "label5";
             label5.Size = new Size(44, 15);
             label5.TabIndex = 18;
@@ -215,11 +243,11 @@
             label8.AutoSize = true;
             label8.BackColor = Color.White;
             label8.ForeColor = SystemColors.ActiveCaptionText;
-            label8.Location = new Point(20, 111);
+            label8.Location = new Point(16, 92);
             label8.Name = "label8";
-            label8.Size = new Size(39, 15);
+            label8.Size = new Size(70, 15);
             label8.TabIndex = 16;
-            label8.Text = "Name";
+            label8.Text = "Department";
             // 
             // textBox3
             // 
@@ -234,7 +262,7 @@
             label7.AutoSize = true;
             label7.BackColor = Color.White;
             label7.ForeColor = SystemColors.ActiveCaptionText;
-            label7.Location = new Point(27, 69);
+            label7.Location = new Point(16, 49);
             label7.Name = "label7";
             label7.Size = new Size(50, 15);
             label7.TabIndex = 14;
@@ -245,11 +273,12 @@
             label6.AutoSize = true;
             label6.BackColor = Color.White;
             label6.ForeColor = SystemColors.ActiveCaptionText;
-            label6.Location = new Point(27, 26);
+            label6.Location = new Point(16, 14);
             label6.Name = "label6";
-            label6.Size = new Size(70, 15);
+            label6.Size = new Size(39, 15);
             label6.TabIndex = 13;
-            label6.Text = "Department";
+            label6.Text = "Name";
+            label6.Click += label6_Click;
             // 
             // textBox2
             // 
@@ -266,6 +295,12 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(144, 23);
             textBox1.TabIndex = 2;
+            textBox1.TextChanged += textBox1_TextChanged;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
             // 
             // Academic
             // 
@@ -282,6 +317,7 @@
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ResumeLayout(false);
@@ -307,5 +343,8 @@
         private Button button4;
         private Button button2;
         private Button button1;
+        private DataGridView dataGridView1;
+        private ContextMenuStrip contextMenuStrip1;
+        private Button button5;
     }
 }

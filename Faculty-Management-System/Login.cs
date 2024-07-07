@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Faculty_Management_System
 {
@@ -12,7 +13,8 @@ namespace Faculty_Management_System
             InitializeComponent();
         }
         
-        SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
+        SqlConnection conn = new SqlConnection("Data Source = (localdb)\\MSSQLLocalDB;Initial Catalog = FCT_DB; Integrated Security = True");
+       
 
         private void exit_login_form_Click(object sender, EventArgs e)
         {
