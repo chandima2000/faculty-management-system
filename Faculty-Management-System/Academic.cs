@@ -8,13 +8,15 @@ namespace Faculty_Management_System
 {
     public partial class Academic : Form
     {
-        private SqlConnection conn;
+       
+        SqlConnection conn = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FCT_DB;Integrated Security=True;TrustServerCertificate=False;Encrypt=False");
 
         public Academic()
         {
             InitializeComponent();
-            conn = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FCT_DB;Integrated Security=True;TrustServerCertificate=False;Encrypt=False");
+           
         }
+
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
@@ -45,9 +47,86 @@ namespace Faculty_Management_System
             panel3.BackColor = Color.FromArgb(80, 255, 255, 255);
         }
 
+        // UPDATE ROW
+        private void UpdateAcademic(string staffNo, string name, string dep, string degree)
+        {
+            try
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
+
+                string query = "UPDATE academic SET name = @name, dep = @dep, degree = @degree WHERE staffNo = @staffNo";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@staffNo", staffNo);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@dep", dep);
+                    cmd.Parameters.AddWithValue("@degree", degree);
+
+                    // Debugging: Print the parameters to check if they match expected values
+                    MessageBox.Show($"Updating record with staffNo: {staffNo}, name: {name}, dep: {dep}, degree: {degree}");
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Successfully updated");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No rows were updated. Please check if the staff number exists.");
+                    }
+
+                    BindDataToDataGridView(); // Refresh the DataGridView
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+        }
+
+
         private void button3_Click(object sender, EventArgs e)
         {
+            DialogResult dr = MessageBox.Show("Are you sure to update row?", "Confirmation", MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+            {
+                string staffNo = textBox2.Text;
+                string name = textBox1.Text;
+                string dep = textBox3.Text;
+                string degree = textBox4.Text;
+
+                if (string.IsNullOrWhiteSpace(staffNo) ||
+                    string.IsNullOrWhiteSpace(name) ||
+                    string.IsNullOrWhiteSpace(dep))
+                {
+                    MessageBox.Show("Please enter valid data.");
+                    return;
+                }
+
+                UpdateAcademic(staffNo, name, dep, degree);
+            }
+            else if (dr == DialogResult.No)
+            {
+                // Nothing to do
+            }
         }
+        //END OF UPDATE ROW
+
+        //RETURN TO HOME PAGE
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -56,6 +135,9 @@ namespace Faculty_Management_System
             this.Hide();
         }
 
+        //END OF RETURN TO HOME PAGE
+
+        ////END OF DELETE ROW FROM THE TABLE
         private void button2_Click(object sender, EventArgs e)
         {
             DialogResult dr = MessageBox.Show("Are you sure to delete row?", "Confirmation", MessageBoxButtons.YesNo);
@@ -72,9 +154,11 @@ namespace Faculty_Management_System
                 try
                 {
                     conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("DeleteAcademic", conn))
+                    string? query = "DELETE FROM academic WHERE staffNo = @staffNo";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandType = CommandType.Text;
                         cmd.Parameters.AddWithValue("@staffNo", staffNo);
                         cmd.ExecuteNonQuery();
                     }
@@ -88,7 +172,10 @@ namespace Faculty_Management_System
                 }
                 finally
                 {
-                    conn.Close();
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
                 }
             }
             else if (dr == DialogResult.No)
@@ -97,16 +184,23 @@ namespace Faculty_Management_System
             }
         }
 
+        //END OF DELETE ROW FROM THE TABLE
+
+        // SHOW ALL DATA
+
         private DataTable GetAcademicList()
         {
             DataTable dt = new DataTable();
 
             try
             {
+
                 conn.Open();
-                using (SqlCommand cmd = new SqlCommand("listAcademic", conn))
+
+                string? query = "SELECT * FROM academic";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandType = CommandType.Text;
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
                         da.Fill(dt);
@@ -117,13 +211,23 @@ namespace Faculty_Management_System
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
+
             finally
             {
-                conn.Close();
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+
             }
+
 
             return dt;
         }
+
+        // END OF SHOW ALL DATA
+
+        // INSERT OPERATION
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -142,10 +246,15 @@ namespace Faculty_Management_System
 
             try
             {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand("insertAcademic", conn))
+                if (conn.State == System.Data.ConnectionState.Closed)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                }
+                string query = "INSERT INTO academic (name, staffNo, dep, degree) VALUES(@name, @staffNo, @dep, @degree)";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@name", name);
                     cmd.Parameters.AddWithValue("@staffNo", staffNo);
                     cmd.Parameters.AddWithValue("@dep", dep);
@@ -162,16 +271,27 @@ namespace Faculty_Management_System
             }
             finally
             {
-                conn.Close();
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            
             }
+            BindDataToDataGridView();
         }
+
+        //CLOSE INSERT OPERATION
 
         private void BindDataToDataGridView()
         {
+
+     
             DataTable dt = GetAcademicList();
             dataGridView1.DataSource = dt;
             dataGridView1.Refresh();
         }
+
+       
 
         private void button5_Click(object sender, EventArgs e)
         {
