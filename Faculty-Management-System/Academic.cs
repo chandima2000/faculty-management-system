@@ -8,15 +8,12 @@ namespace Faculty_Management_System
 {
     public partial class Academic : Form
     {
-       
-        SqlConnection conn = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FCT_DB;Integrated Security=True;TrustServerCertificate=False;Encrypt=False");
+        SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
 
         public Academic()
         {
             InitializeComponent();
-           
         }
-
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
@@ -57,7 +54,6 @@ namespace Faculty_Management_System
                     conn.Open();
                 }
 
-
                 string query = "UPDATE academic SET name = @name, dep = @dep, degree = @degree WHERE staffNo = @staffNo";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -95,9 +91,7 @@ namespace Faculty_Management_System
                     conn.Close();
                 }
             }
-
         }
-
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -137,7 +131,7 @@ namespace Faculty_Management_System
 
         //END OF RETURN TO HOME PAGE
 
-        ////END OF DELETE ROW FROM THE TABLE
+        ////DELETE ROW FROM THE TABLE
         private void button2_Click(object sender, EventArgs e)
         {
             DialogResult dr = MessageBox.Show("Are you sure to delete row?", "Confirmation", MessageBoxButtons.YesNo);
@@ -153,8 +147,11 @@ namespace Faculty_Management_System
 
                 try
                 {
-                    conn.Open();
-                    string? query = "DELETE FROM academic WHERE staffNo = @staffNo";
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                    string query = "DELETE FROM academic WHERE staffNo = @staffNo";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -184,8 +181,6 @@ namespace Faculty_Management_System
             }
         }
 
-        //END OF DELETE ROW FROM THE TABLE
-
         // SHOW ALL DATA
 
         private DataTable GetAcademicList()
@@ -194,10 +189,12 @@ namespace Faculty_Management_System
 
             try
             {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
 
-                conn.Open();
-
-                string? query = "SELECT * FROM academic";
+                string query = "SELECT * FROM academic";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -211,21 +208,16 @@ namespace Faculty_Management_System
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
-
             finally
             {
                 if (conn.State == ConnectionState.Open)
                 {
                     conn.Close();
                 }
-
             }
-
 
             return dt;
         }
-
-        // END OF SHOW ALL DATA
 
         // INSERT OPERATION
 
@@ -246,7 +238,7 @@ namespace Faculty_Management_System
 
             try
             {
-                if (conn.State == System.Data.ConnectionState.Closed)
+                if (conn.State == ConnectionState.Closed)
                 {
                     conn.Open();
                 }
@@ -275,23 +267,15 @@ namespace Faculty_Management_System
                 {
                     conn.Close();
                 }
-            
             }
-            BindDataToDataGridView();
         }
-
-        //CLOSE INSERT OPERATION
 
         private void BindDataToDataGridView()
         {
-
-     
             DataTable dt = GetAcademicList();
             dataGridView1.DataSource = dt;
             dataGridView1.Refresh();
         }
-
-       
 
         private void button5_Click(object sender, EventArgs e)
         {

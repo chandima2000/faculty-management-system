@@ -13,7 +13,7 @@ namespace Faculty_Management_System
             InitializeComponent();
         }
         
-        SqlConnection conn = new SqlConnection("Data Source = (localdb)\\MSSQLLocalDB;Initial Catalog = FCT_DB; Integrated Security = True");
+        SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
        
 
         private void exit_login_form_Click(object sender, EventArgs e)
