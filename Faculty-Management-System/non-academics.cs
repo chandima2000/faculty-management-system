@@ -185,5 +185,10 @@ namespace Faculty_Management_System
             home.Show();
             this.Hide();
         }
+
+        private void dataTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
