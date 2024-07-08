@@ -40,10 +40,10 @@ namespace Faculty_Management_System
 
         private void search_button_click(object sender, EventArgs e)
         {
-            String dept_name = comboBox1.SelectedItem.ToString();
-            String degree = comboBox2.SelectedItem.ToString();
-            String ac_year = comboBox3.SelectedItem.ToString();
-            String level = comboBox4.SelectedItem.ToString();
+            String? dept_name = comboBox1.SelectedItem.ToString();
+            String? degree = comboBox2.SelectedItem.ToString();
+            String? ac_year = comboBox3.SelectedItem.ToString();
+            String? level = comboBox4.SelectedItem.ToString();
             int student_count = 0;
 
             try
@@ -85,4 +85,5 @@ namespace Faculty_Management_System
         }
     }
     }
+
 
