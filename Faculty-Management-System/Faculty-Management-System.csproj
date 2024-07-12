@@ -10,6 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
+
+    <PackageReference Include="MySql.Data" Version="9.0.0" />
+
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
