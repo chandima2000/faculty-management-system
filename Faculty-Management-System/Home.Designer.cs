@@ -54,12 +54,12 @@
             // 
             academic.BackColor = SystemColors.ActiveCaptionText;
             academic.FlatStyle = FlatStyle.Popup;
-            academic.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            academic.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             academic.ForeColor = SystemColors.ButtonFace;
             academic.Location = new Point(131, 155);
             academic.Margin = new Padding(3, 4, 3, 4);
             academic.Name = "academic";
-            academic.Size = new Size(223, 57);
+            academic.Size = new Size(235, 57);
             academic.TabIndex = 2;
             academic.Text = "Academic";
             academic.UseVisualStyleBackColor = false;
@@ -68,11 +68,11 @@
             // non_academic
             // 
             non_academic.FlatStyle = FlatStyle.Popup;
-            non_academic.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            non_academic.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             non_academic.Location = new Point(131, 273);
             non_academic.Margin = new Padding(3, 4, 3, 4);
             non_academic.Name = "non_academic";
-            non_academic.Size = new Size(223, 57);
+            non_academic.Size = new Size(235, 57);
             non_academic.TabIndex = 3;
             non_academic.Text = "Non-Academic";
             non_academic.UseVisualStyleBackColor = true;
@@ -82,7 +82,7 @@
             // 
             department.BackColor = SystemColors.ActiveCaptionText;
             department.FlatStyle = FlatStyle.Popup;
-            department.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            department.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             department.ForeColor = SystemColors.ButtonHighlight;
             department.Location = new Point(357, 399);
             department.Margin = new Padding(3, 4, 3, 4);
@@ -97,12 +97,12 @@
             // 
             undergraduate.BackColor = SystemColors.ActiveCaptionText;
             undergraduate.FlatStyle = FlatStyle.Popup;
-            undergraduate.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            undergraduate.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             undergraduate.ForeColor = SystemColors.ButtonFace;
             undergraduate.Location = new Point(584, 155);
             undergraduate.Margin = new Padding(3, 4, 3, 4);
             undergraduate.Name = "undergraduate";
-            undergraduate.Size = new Size(230, 57);
+            undergraduate.Size = new Size(242, 57);
             undergraduate.TabIndex = 5;
             undergraduate.Text = "Undergraduate";
             undergraduate.UseVisualStyleBackColor = false;
@@ -111,11 +111,11 @@
             // users
             // 
             users.FlatStyle = FlatStyle.Popup;
-            users.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            users.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             users.Location = new Point(584, 273);
             users.Margin = new Padding(3, 4, 3, 4);
             users.Name = "users";
-            users.Size = new Size(230, 57);
+            users.Size = new Size(242, 57);
             users.TabIndex = 6;
             users.Text = "Users";
             users.UseVisualStyleBackColor = true;
@@ -125,7 +125,7 @@
             // 
             logout_btn.BackColor = Color.Red;
             logout_btn.FlatStyle = FlatStyle.Popup;
-            logout_btn.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            logout_btn.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             logout_btn.ForeColor = SystemColors.ButtonHighlight;
             logout_btn.Location = new Point(399, 608);
             logout_btn.Margin = new Padding(3, 4, 3, 4);

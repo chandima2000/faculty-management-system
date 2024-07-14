@@ -37,18 +37,19 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(53, 96);
+            label1.Font = new Font("Microsoft Sans Serif", 28.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(61, 128);
             label1.Name = "label1";
-            label1.Size = new Size(682, 100);
+            label1.Size = new Size(844, 108);
             label1.TabIndex = 0;
             label1.Text = "Faculty of Computing and Technology\r\n               Management System";
             // 
             // progressBar1
             // 
-            progressBar1.Location = new Point(1, 307);
+            progressBar1.Location = new Point(1, 409);
+            progressBar1.Margin = new Padding(3, 4, 3, 4);
             progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(798, 23);
+            progressBar1.Size = new Size(999, 31);
             progressBar1.TabIndex = 1;
             // 
             // timer1
@@ -57,13 +58,14 @@
             // 
             // Welcome
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.HotTrack;
-            ClientSize = new Size(800, 315);
+            ClientSize = new Size(971, 420);
             Controls.Add(progressBar1);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Welcome";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";

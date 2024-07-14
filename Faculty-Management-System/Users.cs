@@ -18,33 +18,41 @@ namespace Faculty_Management_System
         public Users()
         {
             InitializeComponent();
-            con = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
+            con = new SqlConnection("Data Source=LAPTOP-6PCEG0NK\\MSSQLSERVER01;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False");
+            // Assign the form's text boxes to the variables
+            UserIDTextBox = textBox1;
+            NameTextBox = textBox2;
+            PositionTextBox = textBox3;
+            PhoneTextBox = textBox4;
+            UsernameTextBox = textBox5;
+            PasswordTextBox = textBox6;
+
             LoadData();
+
+
         }
 
         // Define text boxes
-        private TextBox? UserIDTextBox;
-        private TextBox? NameTextBox;
-        private TextBox? PositionTextBox;
-        private TextBox? PhoneTextBox;
-        private TextBox? EmailTextBox;
-        private TextBox? PasswordTextBox;
+        private TextBox UserIDTextBox;
+        private TextBox NameTextBox;
+        private TextBox PositionTextBox;
+        private TextBox PhoneTextBox;
+        private TextBox UsernameTextBox;
+        private TextBox PasswordTextBox;
 
-     
+
 
         private void LoadData()
         {
-         
             try
             {
                 con.Open();
-                string query = "SELECT * FROM Users";
+                string query = "SELECT UserID, Name, Position, Phone, Username, Password FROM Users_1";
                 SqlCommand cmd = new SqlCommand(query, con);
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con);
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 dataAdapter.Fill(dataTable);
-                dataGridView1.DataSource = dataTable;
-
+                dataGridView1.DataSource = dataTable; // Bind data to the DataGridView
             }
             catch (Exception ex)
             {
@@ -59,26 +67,35 @@ namespace Faculty_Management_System
 
         private void AddRecord()
         {
-         
-
             try
             {
-                string query = "INSERT INTO Users (UserID, Name, Position, Phone, Email, Password) VALUES (@UserID, @Name, @Position, @Phone, @Email, @Password)";
+                string query = "INSERT INTO Users_1 (UserID, Name, Position, Phone, Username, Password) " +
+                               "VALUES (@UserID, @Name, @Position, @Phone, @Username, @Password)";
+
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
-                    command.Parameters.AddWithValue("@UserID", UserIDTextBox?.Text);
-                    command.Parameters.AddWithValue("@Name", NameTextBox?.Text);
-                    command.Parameters.AddWithValue("@Position", PositionTextBox?.Text);
-                    command.Parameters.AddWithValue("@Phone", PhoneTextBox?.Text);
-                    command.Parameters.AddWithValue("@Email", EmailTextBox?.Text);
-                    command.Parameters.AddWithValue("@Password", PasswordTextBox?.Text);
+                    command.Parameters.AddWithValue("@UserID", UserIDTextBox.Text);
+                    command.Parameters.AddWithValue("@Name", NameTextBox.Text);
+                    command.Parameters.AddWithValue("@Position", PositionTextBox.Text);
+                    command.Parameters.AddWithValue("@Phone", PhoneTextBox.Text);
+                    command.Parameters.AddWithValue("@Username", UsernameTextBox.Text);
+                    command.Parameters.AddWithValue("@Password", PasswordTextBox.Text);
 
-                   
                     con.Open();
-                    command.ExecuteNonQuery();
+                    int rowsAffected = command.ExecuteNonQuery();
                     con.Close();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Data added successfully!");
+                        LoadData(); // Refresh the data grid view
+                        ClearFields(); // Clear the fields after adding
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data not added. No rows affected.");
+                    }
                 }
-                MessageBox.Show("Data added successfully!");
             }
             catch (Exception ex)
             {
@@ -89,33 +106,51 @@ namespace Faculty_Management_System
                 if (con.State == ConnectionState.Open)
                     con.Close();
             }
-            LoadData(); // Refresh the data grid view
+
         }
 
         private void EditRecord()
         {
-            if (string.IsNullOrEmpty(UserIDTextBox?.Text))
+            if (dataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please enter a UserID.");
+                MessageBox.Show("Please select a row to update.");
                 return;
             }
 
+            DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+            string userId = selectedRow.Cells["UserID"].Value.ToString();
+
             try
             {
-                string query = "UPDATE Users SET Name=@Name, Position=@Position, Phone=@Phone, Email=@Email, Password=@Password WHERE ID=@UserID";
+                string query = "UPDATE Users_1 SET Name=@Name, Position=@Position, Phone=@Phone, Username=@Username, Password=@Password WHERE UserID=@UserID";
+
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
-                    command.Parameters.AddWithValue("@UserID", UserIDTextBox.Text);
-                    command.Parameters.AddWithValue("@Name", NameTextBox?.Text);
-                    command.Parameters.AddWithValue("@Position", PositionTextBox?.Text);
-                    command.Parameters.AddWithValue("@Phone", PhoneTextBox?.Text);
-                    command.Parameters.AddWithValue("@Email", EmailTextBox?.Text);
-                    command.Parameters.AddWithValue("@Password", PasswordTextBox?.Text);
-                  
+                    command.Parameters.AddWithValue("@UserID", userId);
+                    command.Parameters.AddWithValue("@Name", NameTextBox.Text);
+                    command.Parameters.AddWithValue("@Position", PositionTextBox.Text);
+                    command.Parameters.AddWithValue("@Phone", PhoneTextBox.Text);
+                    command.Parameters.AddWithValue("@Username", UsernameTextBox.Text);
+                    command.Parameters.AddWithValue("@Password", PasswordTextBox.Text);
 
                     con.Open();
-                    command.ExecuteNonQuery();
+                    int rowsAffected = command.ExecuteNonQuery();
                     con.Close();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Data updated successfully!");
+
+                        // After updating, reload the data into the DataGridView
+                        LoadData();
+
+                        // Clear the fields after updating
+                        ClearFields();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data update failed. No rows affected.");
+                    }
                 }
             }
             catch (Exception ex)
@@ -127,27 +162,41 @@ namespace Faculty_Management_System
                 if (con.State == ConnectionState.Open)
                     con.Close();
             }
-            LoadData(); // Refresh the data grid view
         }
 
         private void DeleteRecord()
         {
-            if (string.IsNullOrEmpty(UserIDTextBox?.Text))
+            if (dataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please enter a UserID.");
+                MessageBox.Show("Please select a row to delete.");
                 return;
             }
 
+            DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+            string userId = selectedRow.Cells["UserID"].Value.ToString();
+
             try
             {
-                string query = "DELETE FROM Users WHERE ID=@UserID";
+                string query = "DELETE FROM Users_1 WHERE UserID=@UserID";
+
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
-                    command.Parameters.AddWithValue("@UserID", UserIDTextBox.Text);
+                    command.Parameters.AddWithValue("@UserID", userId);
 
                     con.Open();
-                    command.ExecuteNonQuery();
+                    int rowsAffected = command.ExecuteNonQuery();
                     con.Close();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Data deleted successfully!");
+                        LoadData(); // Refresh the data grid view
+                        ClearFields(); // Clear the fields after deleting
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data deletion failed. No rows affected.");
+                    }
                 }
             }
             catch (Exception ex)
@@ -159,16 +208,26 @@ namespace Faculty_Management_System
                 if (con.State == ConnectionState.Open)
                     con.Close();
             }
-            LoadData(); // Refresh the data grid view
+        }
+        private void ClearFields()
+        {
+            UserIDTextBox.Text = "";
+            NameTextBox.Text = "";
+            PositionTextBox.Text = "";
+            PhoneTextBox.Text = "";
+            UsernameTextBox.Text = "";
+            PasswordTextBox.Text = "";
         }
 
         private void Users_Load(object sender, EventArgs e)
         {
+            LoadData();
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
             AddRecord();
+            
         }
 
         private void button9_Click(object sender, EventArgs e)
@@ -188,6 +247,23 @@ namespace Faculty_Management_System
             DeleteRecord();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ClearFields();
+        }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
+                UserIDTextBox.Text = row.Cells["UserID"].Value.ToString();
+                NameTextBox.Text = row.Cells["Name"].Value.ToString();
+                PositionTextBox.Text = row.Cells["Position"].Value.ToString();
+                PhoneTextBox.Text = row.Cells["Phone"].Value.ToString();
+                UsernameTextBox.Text = row.Cells["Username"].Value.ToString();
+                PasswordTextBox.Text = row.Cells["Password"].Value.ToString();
+            }
+        }
     }
 }
