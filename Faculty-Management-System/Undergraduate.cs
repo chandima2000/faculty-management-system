@@ -9,19 +9,13 @@ namespace Faculty_Management_System
 {
     public partial class Undergraduate : Form
     {
-        // Define the SqlConnection as a class-level variable
         private SqlConnection con;
 
         public Undergraduate()
         {
             InitializeComponent();
-            // Initialize the SqlConnection with your connection string
-            con = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
-            LoadData(); // Load data when the form initializes
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
+            con = new SqlConnection("Data Source=LAPTOP-6PCEG0NK\\MSSQLSERVER01;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False");
+            LoadData();
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -31,7 +25,6 @@ namespace Faculty_Management_System
             this.Hide();
         }
 
-
         private void button1_Click(object sender, EventArgs e)
         {
             string name = nametext.Text;
@@ -39,28 +32,25 @@ namespace Faculty_Management_System
             string email = emailtext.Text;
             string phoneNumber = phonetext.Text;
             DateTime dateOfBirth = dobtext.Value;
-            string gender = gendertext.Text; // Assuming you have a text box or control for gender
-            string department = departmenttext.Text; // Assuming you have a text box or control for department
-            string degree = degreetext.Text; // Assuming you have a text box or control for degree
-            string level = leveltext.Text; // Assuming you have a text box or control for level
-            byte[]? photo = GetPhotoFromControl(photoControl); // Assuming you have a method to get the photo as byte array from a control
+            string gender = gendertext.Text;
+            string department = departmenttext.Text;
+            string degree = degreetext.Text;
+            string level = leveltext.Text;
 
             try
             {
-                // Open the connection if it's not already open
                 if (con.State == ConnectionState.Closed)
                 {
                     con.Open();
                 }
 
                 string query = @"
-                INSERT INTO [FCT_DB].[dbo].[Undergraduates] 
-                ([Name], [Student_id], [Email], [Phone], [Gender], [DOB], [Department], [Degree], [E_Level], [Photo])
-                VALUES (@name, @studentId, @Email, @Phone, @Gender, @DOB, @Department, @Degree, @Level, @Photo)";
+                INSERT INTO [FCT_DB].[dbo].[Undergraduates_1] 
+                ([Name], [Student_id], [Email], [Phone], [Gender], [DOB], [Department], [Degree], [E_Level])
+                VALUES (@name, @studentId, @Email, @Phone, @Gender, @DOB, @Department, @Degree, @Level)";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    // Add parameters to the command to prevent SQL injection
                     cmd.Parameters.AddWithValue("@name", name);
                     cmd.Parameters.AddWithValue("@studentId", id);
                     cmd.Parameters.AddWithValue("@Email", email);
@@ -70,62 +60,40 @@ namespace Faculty_Management_System
                     cmd.Parameters.AddWithValue("@Department", department);
                     cmd.Parameters.AddWithValue("@Degree", degree);
                     cmd.Parameters.AddWithValue("@Level", level);
-                    cmd.Parameters.AddWithValue("@Photo", photo);
 
-                    // Execute the command
                     cmd.ExecuteNonQuery();
                 }
 
                 MessageBox.Show("Data added successfully!");
-                LoadData(); // Refresh data grid after insertion
+                LoadData();
             }
             catch (Exception ex)
             {
-                // Handle any exceptions
                 MessageBox.Show("Error: " + ex.Message);
             }
             finally
             {
-                // Close the connection when done
                 con.Close();
             }
+
         }
 
-        // Method to get the photo as byte array from the control (example implementation)
-        private byte[]? GetPhotoFromControl(Control photoControl)
-        {
-            if (photoControl is PictureBox pictureBox && pictureBox.Image != null)
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    pictureBox.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    return ms.ToArray();
-                }
-            }
-            return null;
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            LoadData();
-        }
+       
 
         private void LoadData()
         {
             try
             {
-                // Open the connection if it's not already open
                 if (con.State == ConnectionState.Closed)
                 {
                     con.Open();
                 }
 
-                string query = "SELECT [Name], [Student_id], [Email], [Phone], [Gender], [DOB], [Department], [Degree], [E_Level], [Photo] FROM [FCT_DB].[dbo].[Undergraduates]";
+                string query = "SELECT [Name], [Student_id], [Email], [Phone], [Gender], [DOB], [Department], [Degree], [E_Level] FROM [FCT_DB].[dbo].[Undergraduates_1]";
                 SqlDataAdapter adapter = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
-                // Assuming you have a DataGridView control named dataGridView1 to display the data
                 dataGridView1.DataSource = dt;
             }
             catch (Exception ex)
@@ -134,64 +102,37 @@ namespace Faculty_Management_System
             }
             finally
             {
-                // Close the connection when done
                 con.Close();
             }
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            // Set the file dialog properties
-            openFileDialog1.InitialDirectory = "c:\\";
-            openFileDialog1.Filter = "Image Files (*.jpg; *.jpeg; *.png; *.bmp)|*.jpg; *.jpeg; *.png; *.bmp|All files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 1;
-            openFileDialog1.RestoreDirectory = true;
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                // Get the selected file path
-                string selectedImagePath = openFileDialog1.FileName;
-
-                // Display the selected image in the PictureBox
-                photoControl.Image = Image.FromFile(selectedImagePath);
-            }
+            
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
-            // Check if there is a selected row
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                // Get the selected row
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-
-                // Get the value of the primary key column (assuming it's Student-id and it's unique)
-                string? studentId = selectedRow.Cells["Student_id"].Value.ToString();
+                string studentId = selectedRow.Cells["Student_id"].Value.ToString();
 
                 try
                 {
-                    // Open the connection
                     if (con.State == ConnectionState.Closed)
                     {
                         con.Open();
                     }
 
-                    // SQL query to delete the row with the specified Student-id
-                    string query = "DELETE FROM [FCT_DB].[dbo].[Undergraduates] WHERE [Student_id] = @studentId";
+                    string query = "DELETE FROM [FCT_DB].[dbo].[Undergraduates_1] WHERE [Student_id] = @studentId";
 
-                    // Create and execute the SqlCommand
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        // Add the parameter for studentId
                         cmd.Parameters.AddWithValue("@studentId", studentId);
 
-                        // Execute the command
                         int rowsAffected = cmd.ExecuteNonQuery();
 
-                        // Check if the deletion was successful
                         if (rowsAffected > 0)
                         {
                             MessageBox.Show("Row deleted successfully!");
@@ -208,10 +149,7 @@ namespace Faculty_Management_System
                 }
                 finally
                 {
-                    // Close the connection
                     con.Close();
-
-                    // Reload the data to reflect the changes
                     LoadData();
                 }
             }
@@ -219,38 +157,48 @@ namespace Faculty_Management_System
             {
                 MessageBox.Show("Please select a row to delete.");
             }
-
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+                nametext.Text = row.Cells["Name"].Value.ToString();
+                studentidtext.Text = row.Cells["Student_id"].Value.ToString();
+                emailtext.Text = row.Cells["Email"].Value.ToString();
+                phonetext.Text = row.Cells["Phone"].Value.ToString();
+                dobtext.Value = Convert.ToDateTime(row.Cells["DOB"].Value);
+                gendertext.Text = row.Cells["Gender"].Value.ToString();
+                departmenttext.Text = row.Cells["Department"].Value.ToString();
+                degreetext.Text = row.Cells["Degree"].Value.ToString();
+                leveltext.Text = row.Cells["E_Level"].Value.ToString();
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
-            // Check if there is a selected row
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                // Get the selected row
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-
-                // Get the value of the primary key column (assuming it's Student-id and it's unique)
-                string? studentId = selectedRow.Cells["Student_id"].Value.ToString();
+                string studentId = selectedRow.Cells["Student_id"].Value.ToString();
 
                 try
                 {
-                    // Open the connection
                     if (con.State == ConnectionState.Closed)
                     {
                         con.Open();
                     }
 
-                    // SQL query to update the row with the specified Student-id
                     string query = @"
-            UPDATE [FCT_DB].[dbo].[Undergraduates] 
-            SET [Name] = @name, [Email] = @Email, [Phone] = @Phone, [Gender] = @Gender, [DOB] = @DOB, 
-            [Department] = @Department, [Degree] = @Degree, [E_Level] = @Level
-            WHERE [Student_id] = @studentId";
+                    UPDATE [FCT_DB].[dbo].[Undergraduates_1] 
+                    SET [Name] = @name, [Email] = @Email, [Phone] = @Phone, [Gender] = @Gender, [DOB] = @DOB, 
+                    [Department] = @Department, [Degree] = @Degree, [E_Level] = @Level
+                    WHERE [Student_id] = @studentId";
 
-                    // Create and execute the SqlCommand
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        // Add the parameters for the updated values
                         cmd.Parameters.AddWithValue("@name", nametext.Text);
                         cmd.Parameters.AddWithValue("@studentId", studentId);
                         cmd.Parameters.AddWithValue("@Email", emailtext.Text);
@@ -261,27 +209,11 @@ namespace Faculty_Management_System
                         cmd.Parameters.AddWithValue("@Degree", degreetext.Text);
                         cmd.Parameters.AddWithValue("@Level", leveltext.Text);
 
-                        // Execute the command
                         int rowsAffected = cmd.ExecuteNonQuery();
 
-                        // Check if the update was successful
                         if (rowsAffected > 0)
                         {
                             MessageBox.Show("Row updated successfully!");
-
-                            // Update the corresponding DataRow in the DataTable
-                            DataRow rowToUpdate = ((DataRowView)selectedRow.DataBoundItem).Row;
-                            rowToUpdate["Name"] = nametext.Text;
-                            rowToUpdate["Email"] = emailtext.Text;
-                            rowToUpdate["Phone"] = phonetext.Text;
-                            rowToUpdate["Gender"] = gendertext.Text;
-                            rowToUpdate["DOB"] = dobtext.Value;
-                            rowToUpdate["Department"] = departmenttext.Text;
-                            rowToUpdate["Degree"] = degreetext.Text;
-                            rowToUpdate["E_Level"] = leveltext.Text;
-
-                            // Refresh the DataGridView to reflect the changes
-                            dataGridView1.Refresh();
                         }
                         else
                         {
@@ -295,8 +227,8 @@ namespace Faculty_Management_System
                 }
                 finally
                 {
-                    // Close the connection
                     con.Close();
+                    LoadData();
                 }
             }
             else
@@ -305,6 +237,24 @@ namespace Faculty_Management_System
             }
         }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
+        }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            // Clear text fields
+            nametext.Text = "";
+            studentidtext.Text = "";
+            emailtext.Text = "";
+            phonetext.Text = "";
+            dobtext.Value = DateTime.Today; // Reset date to today
+            gendertext.Text = "";
+            departmenttext.Text = "";
+            degreetext.Text = "";
+            leveltext.Text = "";
+
+           
+        }
     }
 }

@@ -21,18 +21,18 @@ namespace Faculty_Management_System
             LoadData();
         }
 
-        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
+        SqlConnection con = new SqlConnection("Data Source=LAPTOP-6PCEG0NK\\MSSQLSERVER01;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False");
 
         private void LoadData()
         {
             try
             {
-               
+
                 // Open the connection if it's not already open
                 if (con.State == ConnectionState.Closed)
-                 {
-                     con.Open();
-                 }
+                {
+                    con.Open();
+                }
 
                 string? query = "SELECT * FROM NonAcademics";
                 SqlCommand cmd = new SqlCommand(query, con);
@@ -61,117 +61,12 @@ namespace Faculty_Management_System
 
         private void addbtn_Click(object sender, EventArgs e)
         {
-            string name = nametxt.Text;
-            string email = emailtxt.Text;
-            string id = idtxt.Text;
-            string phoneNumber = phonetxt.Text;
-            DateTime dateOfBirth = datetxt.Value;
 
-            // Now you can use the 'Con' object to perform database operations
-            // For example, you can open the connection:
-            try
-            {
-                //Open the connection if it's not already open
-                if (con.State == System.Data.ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-
-                string query = "INSERT INTO NonAcademics (name, email, staff_id, phone_no, dob) VALUES(@name, @email, @staff_id, @phone_no, @dob)";
-
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    // Add parameters to the command to prevent SQL injection
-                    cmd.Parameters.AddWithValue("@name", name);
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@staff_id", id);
-                    cmd.Parameters.AddWithValue("@phone_no", phoneNumber);
-                    cmd.Parameters.AddWithValue("@dob", dateOfBirth);
-
-                    // Execute the command
-                    cmd.ExecuteNonQuery();
-                }
-
-                MessageBox.Show("Data added successfully!");
-
-                // Clear the text boxes
-                nametxt.Text = "";
-                emailtxt.Text = "";
-                idtxt.Text = "";
-                phonetxt.Text = "";
-                datetxt.Value = DateTime.Now;
-
-                // Refresh the DataGridView
-                LoadData();
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions
-                MessageBox.Show("Error: " + ex.Message);
-            }
-            finally
-            {
-                // Close the connection when done
-                con.Close();
-            }
         }
 
         private void deletebtn_Click(object sender, EventArgs e)
         {
-            // Check if there is a selected row
-            if (dataTable.SelectedRows.Count > 0)
-            {
-                // Get the selected row
-                DataGridViewRow selectedRow = dataTable.SelectedRows[0];
 
-                // Get the value of the primary key column (staff_id assuming it's unique)
-                string? staffId = selectedRow.Cells["staff_id"].Value.ToString();
-
-                try
-                {
-                    // Open the connection
-                    con.Open();
-
-                    // SQL query to delete the row with the specified staff_id
-                    string? query = "DELETE FROM NonAcademics WHERE staff_id = @staffId";
-
-                    // Create and execute the MySqlCommand
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        // Add the parameter for staffId
-                        cmd.Parameters.AddWithValue("@staffId", staffId);
-
-                        // Execute the command
-                        int rowsAffected = cmd.ExecuteNonQuery();
-
-                        // Check if the deletion was successful
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("Row deleted successfully!");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Row deletion failed!");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
-                finally
-                {
-                    // Close the connection
-                    con.Close();
-
-                    // Reload the data to reflect the changes
-                    LoadData();
-                }
-            }
-            else
-            {
-                MessageBox.Show("Please select a row to delete.");
-            }
         }
 
         private void editbtn_Click(object sender, EventArgs e)
@@ -188,7 +83,188 @@ namespace Faculty_Management_System
 
         private void dataTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            // Optionally, load selected row data into text boxes
+            if (dataTable.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataTable.SelectedRows[0];
+                nametxt.Text = selectedRow.Cells["name"].Value.ToString();
+                emailtxt.Text = selectedRow.Cells["email"].Value.ToString();
+                idtxt.Text = selectedRow.Cells["staff_id"].Value.ToString();
+                phonetxt.Text = selectedRow.Cells["phone_no"].Value.ToString();
+                datetxt.Value = Convert.ToDateTime(selectedRow.Cells["dob"].Value);
+                gendertext.Text = selectedRow.Cells["gender"].Value.ToString();
+            }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string name = nametxt.Text;
+            string email = emailtxt.Text;
+            string id = idtxt.Text;
+            string phoneNumber = phonetxt.Text;
+            DateTime dateOfBirth = datetxt.Value;
+            string gender = gendertext.Text;
+
+            try
+            {
+                if (con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+
+                string query = "INSERT INTO NonAcademics (name, email, staff_id, phone_no, dob, gender) VALUES(@name, @email, @staff_id, @phone_no, @dob, @gender)";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@email", email);
+                    cmd.Parameters.AddWithValue("@staff_id", id);
+                    cmd.Parameters.AddWithValue("@phone_no", phoneNumber);
+                    cmd.Parameters.AddWithValue("@dob", dateOfBirth);
+                    cmd.Parameters.AddWithValue("@gender", gender);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                MessageBox.Show("Data added successfully!");
+                ClearFields();
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (dataTable.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataTable.SelectedRows[0];
+                string staffId = selectedRow.Cells["staff_id"].Value.ToString();
+
+                try
+                {
+                    con.Open();
+                    string query = @"
+                        UPDATE NonAcademics 
+                        SET name = @name, email = @email,
+                            phone_no = @phone_no, dob = @dob, gender = @gender
+                        WHERE staff_id = @staffId";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@name", nametxt.Text);
+                        cmd.Parameters.AddWithValue("@email", emailtxt.Text);
+                        cmd.Parameters.AddWithValue("@staffId", staffId);
+                        cmd.Parameters.AddWithValue("@phone_no", phonetxt.Text);
+                        cmd.Parameters.AddWithValue("@dob", datetxt.Value);
+                        cmd.Parameters.AddWithValue("@gender", gendertext.Text);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Row updated successfully!");
+                            UpdateDataGridViewRow(selectedRow);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Row update failed!");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a row to update.");
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (dataTable.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataTable.SelectedRows[0];
+                string staffId = selectedRow.Cells["staff_id"].Value.ToString();
+
+                try
+                {
+                    con.Open();
+                    string query = "DELETE FROM NonAcademics WHERE staff_id = @staffId";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@staffId", staffId);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Row deleted successfully!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Row deletion failed!");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+                finally
+                {
+                    con.Close();
+                    LoadData();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a row to delete.");
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ClearFields();
+        }
+
+        private void ClearFields()
+        {
+            nametxt.Text = "";
+            emailtxt.Text = "";
+            idtxt.Text = "";
+            phonetxt.Text = "";
+            gendertext.Text = "";
+            datetxt.Value = DateTime.Now;
+        }
+
+        private void UpdateDataGridViewRow(DataGridViewRow selectedRow)
+        {
+            selectedRow.Cells["name"].Value = nametxt.Text;
+            selectedRow.Cells["email"].Value = emailtxt.Text;
+            selectedRow.Cells["phone_no"].Value = phonetxt.Text;
+            selectedRow.Cells["dob"].Value = datetxt.Value;
+            selectedRow.Cells["gender"].Value = gendertext.Text;
+            dataTable.Refresh();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Home home = new Home();
+            home.Show();
+            this.Hide();
+        }
+        
     }
 }

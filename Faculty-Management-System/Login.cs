@@ -13,7 +13,7 @@ namespace Faculty_Management_System
             InitializeComponent();
         }
         
-        SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
+        SqlConnection conn = new SqlConnection("Data Source=LAPTOP-6PCEG0NK\\MSSQLSERVER01;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False");
        
 
         private void exit_login_form_Click(object sender, EventArgs e)
@@ -23,26 +23,29 @@ namespace Faculty_Management_System
 
         private void login_btn_Click(object sender, EventArgs e)
         {
-            string? username, password;
-            
+           string username = textBox1.Text.Trim();
+            string password = textBox2.Text.Trim();
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Please enter both username and password.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             try
             {
                 conn.Open();
-                string query = "SELECT * FROM Login WHERE username = @username AND password = @password";
+                string query = "SELECT * FROM Users_1 WHERE Username = @username AND Password = @password";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@username", textBox1.Text);
-                cmd.Parameters.AddWithValue("@password", textBox2.Text);
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@password", password);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
 
                 DataTable dtable = new DataTable();
                 sda.Fill(dtable);
 
-                if(dtable.Rows.Count > 0 )
+                if (dtable.Rows.Count > 0)
                 {
-                    username = textBox1.Text;
-                    password = textBox2.Text;
-
                     Home home = new Home();
                     home.Show();
                     this.Hide();
@@ -52,18 +55,21 @@ namespace Faculty_Management_System
                     MessageBox.Show("Invalid Credentials", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     textBox1.Clear();
                     textBox2.Clear();
-
                     textBox1.Focus();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Something went Wrong!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Something went wrong: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 conn.Close();
             }
+
+             /*Home academic = new Home();
+             academic.Show();
+             this.Hide();*/
         }
 
         private void Login_Load(object sender, EventArgs e)

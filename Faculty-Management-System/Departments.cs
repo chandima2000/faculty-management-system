@@ -1,33 +1,131 @@
 ﻿using System.Data.SqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data;
 
 namespace Faculty_Management_System
 {
-
     public partial class Departments : Form
     {
+        private SqlConnection conn;
         public Departments()
         {
             InitializeComponent();
+            conn = new SqlConnection("Data Source=LAPTOP-6PCEG0NK\\MSSQLSERVER01;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False");
+            // Add predefined items to the combo boxes
+            InitializeComboBoxItems();
         }
 
-        SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=FCT_DB;Integrated Security=True;Encrypt=False;");
+        private void InitializeComboBoxItems()
+        {
+            // Departments
+            comboBox1.Items.AddRange(new string[]
+            {
+                "Computer System Engineering",
+                "Applied Computing",
+                "Software Engineering"
+            });
+
+            // Degrees
+            comboBox2.Items.AddRange(new string[]
+            {
+                "Computer Science",
+                "Computing & Technology",
+                "Engineering Technology"
+            });
+
+            // Levels
+            comboBox4.Items.AddRange(new string[]
+            {
+                "Level 1",
+                "Level 2",
+                "Level 3",
+                "Level 4"
+            });
+
+            // Ensure no default selection
+            comboBox1.SelectedIndex = -1;
+            comboBox2.SelectedIndex = -1;
+            comboBox4.SelectedIndex = -1;
+        }
+
 
         private void Departments_Load(object sender, EventArgs e)
         {
-            Home home = new Home();
-            home.Show();
-            this.Hide();
+            // Load department, degree, and level data into combo boxes
+            LoadComboBoxData();
         }
+        private void LoadComboBoxData()
+        {
+            try
+            {
+                conn.Open();
 
+                // Load departments
+                string deptQuery = "SELECT DISTINCT [Department] FROM [Undergraduates_1]";
+                SqlDataAdapter deptAdapter = new SqlDataAdapter(deptQuery, conn);
+                DataTable deptTable = new DataTable();
+                deptAdapter.Fill(deptTable);
+                comboBox1.DataSource = deptTable;
+                comboBox1.DisplayMember = "Department";
+                comboBox1.ValueMember = "Department";
+                comboBox1.SelectedIndex = -1; // Ensure no default selection
+
+                // Check department items
+                Console.WriteLine("Departments loaded: " + deptTable.Rows.Count);
+                foreach (DataRow row in deptTable.Rows)
+                {
+                    Console.WriteLine(row["Department"]);
+                }
+
+                // Load degrees
+                string degreeQuery = "SELECT DISTINCT [Degree] FROM [Undergraduates_1]";
+                SqlDataAdapter degreeAdapter = new SqlDataAdapter(degreeQuery, conn);
+                DataTable degreeTable = new DataTable();
+                degreeAdapter.Fill(degreeTable);
+                comboBox2.DataSource = degreeTable;
+                comboBox2.DisplayMember = "Degree";
+                comboBox2.ValueMember = "Degree";
+                comboBox2.SelectedIndex = -1; // Ensure no default selection
+
+                // Check degree items
+                Console.WriteLine("Degrees loaded: " + degreeTable.Rows.Count);
+                foreach (DataRow row in degreeTable.Rows)
+                {
+                    Console.WriteLine(row["Degree"]);
+                }
+
+                // Load levels
+                string levelQuery = "SELECT DISTINCT [E_Level] FROM [Undergraduates_1]";
+                SqlDataAdapter levelAdapter = new SqlDataAdapter(levelQuery, conn);
+                DataTable levelTable = new DataTable();
+                levelAdapter.Fill(levelTable);
+                comboBox4.DataSource = levelTable;
+                comboBox4.DisplayMember = "E_Level";
+                comboBox4.ValueMember = "E_Level";
+                comboBox4.SelectedIndex = -1; // Ensure no default selection
+
+                // Check level items
+                Console.WriteLine("Levels loaded: " + levelTable.Rows.Count);
+                foreach (DataRow row in levelTable.Rows)
+                {
+                    Console.WriteLine(row["E_Level"]);
+                }
+
+                // Ensure combo boxes are refreshed
+                comboBox1.Refresh();
+                comboBox2.Refresh();
+                comboBox4.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading data: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         private void label1_Click(object sender, EventArgs e)
         {
 
@@ -40,50 +138,69 @@ namespace Faculty_Management_System
 
         private void search_button_click(object sender, EventArgs e)
         {
-            String? dept_name = comboBox1.SelectedItem.ToString();
-            String? degree = comboBox2.SelectedItem.ToString();
-            String? ac_year = comboBox3.SelectedItem.ToString();
-            String? level = comboBox4.SelectedItem.ToString();
-            int student_count = 0;
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string? deptName = comboBox1.SelectedValue?.ToString();
+            string? degree = comboBox2.SelectedValue?.ToString();
+            string? level = comboBox4.SelectedValue?.ToString();
+
+            if (string.IsNullOrEmpty(deptName) || string.IsNullOrEmpty(degree) || string.IsNullOrEmpty(level))
+            {
+                MessageBox.Show("Please select values for Department, Degree, and Level.");
+                return;
+            }
 
             try
             {
                 conn.Open();
-                String query = "SELECT * FROM departments WHERE name=@dept_name AND degree=@degree AND year=@ac_year AND level=@level";
-                SqlCommand cmd = new(query, conn);
-                cmd.Parameters.AddWithValue("@dept_name", dept_name);
+                string query = @"
+                SELECT COUNT(*) AS student_count
+                FROM [Undergraduates_1]
+                WHERE [Department] = @deptName AND [Degree] = @degree AND [E_Level] = @level";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@deptName", deptName);
                 cmd.Parameters.AddWithValue("@degree", degree);
-                cmd.Parameters.AddWithValue("@ac_year", ac_year);
                 cmd.Parameters.AddWithValue("@level", level);
 
-                SqlDataReader reader = cmd.ExecuteReader();
+                int studentCount = (int)cmd.ExecuteScalar();
 
-                if (reader.Read())
-                {
-                    deptLabel.Text = reader["name"].ToString();
-                    degreeLabel.Text = reader["degree"].ToString();
-                    acYearLabel.Text = reader["year"].ToString();
-                    levelLabel.Text = reader["level"].ToString();
-                    student_count = Convert.ToInt32(reader["student_count"]);
-                    stuCountLabel.Text = student_count.ToString();
-                }
-                else
-                {
-                    MessageBox.Show("No records found.");
-                }
-
-                reader.Close();
+                deptLabel.Text = deptName;
+                degreeLabel.Text = degree;
+                acYearLabel.Text = level;
+                stuCountLabel.Text = studentCount.ToString();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
+                MessageBox.Show("Error: " + ex.Message);
             }
             finally
             {
                 conn.Close();
             }
         }
-    }
-    }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Home home = new Home();
+            home.Show();
+            this.Hide();
+        }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Clear the combo boxes and labels
+            comboBox1.SelectedIndex = -1;
+            comboBox2.SelectedIndex = -1;
+            comboBox4.SelectedIndex = -1;
+
+            deptLabel.Text = string.Empty;
+            degreeLabel.Text = string.Empty;
+            acYearLabel.Text = string.Empty;
+            stuCountLabel.Text = string.Empty;
+        }
+    }
+}
