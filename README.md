@@ -57,6 +57,6 @@ We would like to thank the following contributors for their invaluable contribut
 - **Chandima Maduwantha** ([GitHub](https://github.com/chandima2000)) - Project Lead, Backend Development(User Authentication & Dashboard)
 - **Kavindi Liyange**  ([GitHub](https://github.com/Kaviii8)) - Backend Development (User)
 - **Supuni Punsarani** ([GitHub](https://github.com/Supuni-Punsarani)) - Backend Development(Undergraduate)
-- **Piyumi Nadeesha** ([GitHub](https://github.com/piyuminadee)) - Backend Development(Academic) & UI Design
+- **Piyumi Nadeesha** ([GitHub](https://github.com/piyuminadee)) - Backend Development(Academic) & <a href = "https://www.figma.com/design/hAehlSCH2ORLE13hp7CoHU/Faculty-Management-System?node-id=0-1&t=jZnaTbvIrrhSG6nf-1">UI Design </a>
 - **Hansani Gunathilake** ([GitHub](https://github.com/Gunathi)) - Backend Development(Non Academic)
 - **Piyumi Nadeera** ([GitHub](https://github.com/PiyumiNadeera)) - Backend Development(Department)
